@@ -1,11 +1,11 @@
 public class Basket {
 
+    public static int weight = 0;
     private static int count = 0;
     private String items = "";
     private int totalPrice = 0;
     private int limit;
-    public static int weight = 0;
-    private double totalWeight =0;
+    private double totalWeight = 0;
 
     public Basket() {
         increaseCount(1);
@@ -25,32 +25,23 @@ public class Basket {
     }
 
     public static int getCount() {
+
         return count;
     }
 
     public static void increaseCount(int count) {
+
         Basket.count = Basket.count + count;
     }
 
+    public void add(String name, int price, double weight) {
+        add(name, price, 1, weight); // у нас один товар в метод передается, переиспользуем
+    }
+
     public void add(String name, int price, int count, double weight) {
-        boolean error = false;
-        if (contains(name)) {
-            error = true;
-        }
-
-        if (totalPrice + count * price >= limit) {
-            error = true;
-        }
-
-        if (error) {
-            System.out.println("Error occured :(");
-            return;
-        }
-
-        items = items + "\n" + name + " - " +
-            count + " шт. - " + price + " р. " + weight + " кг.";
-        totalPrice = totalPrice + price * count;
-        totalWeight = totalWeight + weight * count;
+        items += "\n" + name + " - " + count + " шт. - " + price + " р. " + weight + " кг.";
+        this.totalPrice += price * count;
+        this.totalWeight += weight * count;
     }
 
     public void clear() {
@@ -60,16 +51,19 @@ public class Basket {
 
 
     public int getTotalPrice() {
+
         return totalPrice;
     }
 
-    public double getTotalWeight() {
-        return totalWeight;
+    public String getTotalWeight() {
+        String total;
+        total = "Общий вес корзины: " + totalWeight;
+        return total;
     }
 
 
-
     public boolean contains(String name) {
+
         return items.contains(name);
     }
 

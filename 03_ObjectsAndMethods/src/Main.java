@@ -2,13 +2,12 @@ public class Main {
 
     public static void main(String[] args) {
         Basket basket = new Basket();
-        basket.add("Колбаса", 250, 1, 0.5);
+        basket.add("Молоко", 200, 1, 0.5);
         basket.add("Хлеб", 40, 2, 0.2);
         basket.print("Содержимое корзины:");
-        basket.clear();
         basket.print("");
-        basket.add("Сок", 40, 2, 0.5);
-
+        basket.clear();
+        System.out.println(basket.getTotalWeight());
 
 
         Arithmetic arithmetic = new Arithmetic(25, 5);
@@ -19,15 +18,11 @@ public class Main {
 
 
         Printer printer = new Printer();
-        printer.append("Расписка",2);
-        printer.append("Доверенность", 5);
-        printer.append("Спецификация", 17);
-        printer.print("\nОчередь печати:");
-        System.out.println("Общее число страниц:" + printer.getTotalPages());
-        printer.clear();
-        System.out.println("Распечатанно страниц всего:" + printer.totalCount());
-        printer.print("Очередь печати:");
-        printer.append("Договор", 3);
+        printer.append("Undefined", "Расписка", 1);
+        printer.append("Undefined", "Доверенность", 3);
+        printer.append("Undefined", "Спецификация", 14);
+        printer.print();
+        System.out.println(printer.getTotalPrints());
 
 
     }
