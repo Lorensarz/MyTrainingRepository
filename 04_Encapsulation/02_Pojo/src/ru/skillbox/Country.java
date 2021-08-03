@@ -5,9 +5,9 @@ public class Country {
     private int population;
     private int areaInSquareKilometers;
     private String capitalName;
-    private String accessToTheSea;
+    private boolean accessToTheSea;
 
-    public Country(String name, int population, int areaInSquareKilometers, String capitalName, String accessToTheSea) {
+    public Country(String name, int population, int areaInSquareKilometers, String capitalName, boolean accessToTheSea) {
         this.name = name;
         this.population = population;
         this.areaInSquareKilometers = areaInSquareKilometers;
@@ -47,12 +47,13 @@ public class Country {
         this.capitalName = capitalName;
     }
 
-    public String isAccessToTheSea() {
+    public boolean isAccessToTheSea() {
         return accessToTheSea;
     }
 
-    public void setAccessToTheSea(String accessToTheSea) {
+    public void setAccessToTheSea(boolean accessToTheSea) {
         this.accessToTheSea = accessToTheSea;
+        System.out.println(isAccessToTheSea() ? ("Yes") : ("No"));
     }
 
 }
