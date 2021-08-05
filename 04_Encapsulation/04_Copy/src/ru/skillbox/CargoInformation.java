@@ -63,13 +63,13 @@ public class CargoInformation {
         return new CargoInformation(dimensions.getWidth(), dimensions.getHight(), dimensions.getLenght(), weight, deliveryAddress, reversible, registrationNumber, fragility);
     }
     public CargoInformation setWidth(int width) {
-        return new CargoInformation(dimensions.getWidth(), dimensions.getHight(), dimensions.getLenght(), weight, deliveryAddress, reversible, registrationNumber, fragility);
+        return new CargoInformation(width, dimensions.getHight(), dimensions.getLenght(), weight, deliveryAddress, reversible, registrationNumber, fragility);
     }
     public CargoInformation setHight(int hight) {
-        return new CargoInformation(dimensions.getWidth(), dimensions.getHight(), dimensions.getLenght(), weight, deliveryAddress, reversible, registrationNumber, fragility);
+        return new CargoInformation(dimensions.getWidth(), hight, dimensions.getLenght(), weight, deliveryAddress, reversible, registrationNumber, fragility);
     }
     public CargoInformation setLenght(int lenght) {
-        return new CargoInformation(dimensions.getWidth(), dimensions.getHight(), dimensions.getLenght(), weight, deliveryAddress, reversible, registrationNumber, fragility);
+        return new CargoInformation(dimensions.getWidth(), dimensions.getHight(), lenght, weight, deliveryAddress, reversible, registrationNumber, fragility);
     }
 
     public CargoInformation setWeight(int weight) {
