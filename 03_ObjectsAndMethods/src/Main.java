@@ -32,6 +32,8 @@ public class Main {
         System.out.println(Basket.getTotalPriceBasket());
         System.out.println(Basket.getTotalWeightBasket());
         System.out.println(Basket.getAverageBasketPrice());
+        System.out.println(Basket.getTotalCountProduct());
+        System.out.println(Basket.getAverageProductPrice());
 
 
         System.out.println("================================================================");

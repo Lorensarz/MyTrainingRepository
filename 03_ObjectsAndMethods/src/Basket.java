@@ -17,24 +17,21 @@ public class Basket {
     private double totalWeight = 0;
     private static int totalPriceBasket;
     private static double totalWeightBasket;
+    private static int totalCountProduct;
     public static int countBasket = 0;
-    private static int averageBasketPrice = 0;
 
 
     private static void addTotalPriceBasket(int totalPrice) {
-
         totalPriceBasket += totalPrice;
     }
 
     private static void addTotalWeightBasket(double totalWeight) {
-
         totalWeightBasket += totalWeight;
     }
 
-
-
-
-
+    private static void addTotalCountProduct(int totalCount) {
+        totalCountProduct += totalCount;
+    }
 
     public Basket() {
         countBasket = countBasket + 1;
@@ -50,20 +47,15 @@ public class Basket {
     public Basket(String items) {
         this();
         this.items = this.items + items;
-
     }
 
     public static int getCountBasket() {
-
         return countBasket;
     }
 
-
     public static int getCount() {
-
         return count;
     }
-
 
     public void add(String name, int price, double weight) {
         add(name, price, 1, weight);
@@ -73,20 +65,36 @@ public class Basket {
         items += "\n" + name + " - " + count + " шт. - " + price + " р. " + weight + " кг.";
         this.totalPrice += price * count;
         this.totalWeight += weight * count;
+        addTotalCountProduct(count);
         addTotalPriceBasket(price * count);
         addTotalWeightBasket(weight * count);
     }
 
-    public double averageBasketPrice() {
-        return  (double) totalPriceBasket / (double) countBasket;
+    public static double averageProductPrice() {
+        return (double) totalPriceBasket / (double) totalCountProduct;
+    }
+
+    public static double averageBasketPrice() {
+        return (double) totalPriceBasket / (double) countBasket;
+    }
+
+    public static String getTotalCountProduct() {
+        String total;
+        total = "\nОбщее количество всех товаров: " + totalCountProduct;
+        return total;
+    }
+
+    public static String getAverageProductPrice() {
+        String total;
+        total = "\nСредняя цена товара во всех корзинах: " + averageProductPrice();
+        return total;
     }
 
     public static String getAverageBasketPrice() {
         String total;
-        total = "\nСредняя цена всех корзин: " + averageBasketPrice;
+        total = "\nСредняя цена всех корзин: " + averageBasketPrice();
         return total;
     }
-
 
     public static String getTotalWeightBasket() {
         String total;
@@ -118,9 +126,7 @@ public class Basket {
         totalWeight = 0;
     }
 
-
     public boolean contains(String name) {
-
         return items.contains(name);
     }
 
