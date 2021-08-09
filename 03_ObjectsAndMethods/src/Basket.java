@@ -18,8 +18,8 @@ public class Basket {
     private static int totalPriceBasket;
     private static double totalWeightBasket;
     public static int countBasket = 0;
-    private static int averageBasketPrice;
-    private static int averagePrice = 0;
+    private static int averageBasketPrice = 0;
+
 
     private static void addTotalPriceBasket(int totalPrice) {
 
@@ -31,10 +31,10 @@ public class Basket {
         totalWeightBasket += totalWeight;
     }
 
-    private static void addAverageBasketPrice(int averageBasketPrice) {
 
-        averageBasketPrice += averagePrice;
-    }
+
+
+
 
     public Basket() {
         countBasket = countBasket + 1;
@@ -58,9 +58,6 @@ public class Basket {
         return countBasket;
     }
 
-    public static int getAveragePrice() {
-        return averagePrice;
-    }
 
     public static int getCount() {
 
@@ -76,14 +73,17 @@ public class Basket {
         items += "\n" + name + " - " + count + " шт. - " + price + " р. " + weight + " кг.";
         this.totalPrice += price * count;
         this.totalWeight += weight * count;
-        addAverageBasketPrice(averageBasketPrice / countBasket);
         addTotalPriceBasket(price * count);
         addTotalWeightBasket(weight * count);
     }
 
+    public double averageBasketPrice() {
+        return  (double) totalPriceBasket / (double) countBasket;
+    }
+
     public static String getAverageBasketPrice() {
         String total;
-        total = "\nСредня цена всех корзин: " + averageBasketPrice;
+        total = "\nСредняя цена всех корзин: " + averageBasketPrice;
         return total;
     }
 
