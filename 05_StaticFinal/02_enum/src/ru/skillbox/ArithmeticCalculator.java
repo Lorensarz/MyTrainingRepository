@@ -1,5 +1,4 @@
 package ru.skillbox;
-
 import static ru.skillbox.Operation.ADD;
 
 public class ArithmeticCalculator {
@@ -11,7 +10,7 @@ public class ArithmeticCalculator {
         this.b = b;
     }
 
-        double calculate (Operation operation) {
+    public double calculate(Operation operation) {
 
             switch (operation) {
 
