@@ -18,17 +18,22 @@ public class Cpu {
         this.weight = weight;
     }
 
-    // Public methods
+    // Getters
+
+    public String getFrequency() {
+        return "Частота: " + frequency;
+    }
+
+    public String getCoreCount() {
+        return "Количество ядер: " + coreCount;
+    }
+
+    public String getManufacturer() {
+        return "Производитель: " + manufacturer;
+    }
 
     public double getWeight() {
         return weight;
     }
-
-    public String getInformation() {
-        return "Производитель: " + this.manufacturer +
-                "\nЧастота: " + this.frequency +
-                "\nКол-во ядер: " + this.coreCount;
-    }
-
 
 }

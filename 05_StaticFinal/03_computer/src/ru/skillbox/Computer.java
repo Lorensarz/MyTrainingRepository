@@ -14,13 +14,23 @@ public class Computer {
         this.name = name;
     }
 
+    public Computer(String vendor, String name, Cpu myCpu, Ram myRam, Hdd myHdd, Display myDisplay, Keyboard myKeyboard) {
+        this.vendor = vendor;
+        this.name = name;
+        this.myCpu = myCpu;
+        this.myRam = myRam;
+        this.myHdd = myHdd;
+        this.myDisplay = myDisplay;
+        this.myKeyboard = myKeyboard;
+    }
+
     // Internal properties
 
-    Cpu myCpu = new Cpu(3.2, 4, "intel", 110);
-    Ram myRam = new Ram(RamType.DDR4, 4, 80);
-    Hdd myHdd = new Hdd(MemoryType.SSD, 500, 250);
-    Display myDisplay = new Display(27, DisplayType.IPS, 6100);
-    Keyboard myKeyboard = new Keyboard(KeyboardType.MEHANICAL, true, 715);
+    static Cpu myCpu = new Cpu(3.2, 4, "intel", 110);
+    static Ram myRam = new Ram(RamType.DDR4, 4, 80);
+    static Hdd myHdd = new Hdd(MemoryType.SSD, 500, 250);
+    static Display myDisplay = new Display(27, DisplayType.IPS, 6100);
+    static Keyboard myKeyboard = new Keyboard(KeyboardType.MEHANICAL, true, 715);
 
     // Getters
 
@@ -47,61 +57,47 @@ public class Computer {
     // Setters
 
     public void setMyCpu(Cpu myCpu) {
-        this.myCpu = myCpu;
+        Computer.myCpu = myCpu;
     }
 
     public void setMyRam(Ram myRam) {
-        this.myRam = myRam;
+        Computer.myRam = myRam;
     }
 
     public void setMyHdd(Hdd myHdd) {
-        this.myHdd = myHdd;
+        Computer.myHdd = myHdd;
     }
 
     public void setMyDisplay(Display myDisplay) {
-        this.myDisplay = myDisplay;
+        Computer.myDisplay = myDisplay;
     }
 
     public void setMyKeyboard(Keyboard myKeyboard) {
-        this.myKeyboard = myKeyboard;
+        Computer.myKeyboard = myKeyboard;
     }
 
     // Public methods
 
-    /**
-     * // Если сделать все классы наследником класса Component которые будут заимствовать переменную Weight
-     * и геттеры Weight
-     * // Можно использовать полиморфизм, обьеденяя под одним типом разные компоненты
-     * public double getTotalWeight() {
-     * int componentsCount = 5;
-     * Component[] components = new Component[] {myCpu, myRam, myHdd, myDisplay, myKeyboard};
-     * Double totalWeight;
-     * for(int index = 0; index < componentsCount; index += 1) {
-     * totalWeight += components[index].getWeight();
-     * }
-     * return totalWeight;
-     * }
-     */
-
-    public double getTotalWeight() {
-        return myCpu.getWeight() +
+    public static String getTotalWeight() {
+        return "Общий вес ПК: " + myCpu.getWeight() +
                 myRam.getWeight() +
                 myHdd.getWeight() +
                 myDisplay.getWeight() +
                 myKeyboard.getWeight();
     }
 
-    // Object inheritances
-
-    @Override
-    public String toString() {
-        return "Computer: " + vendor + " " + name +
-                "\n\tmyCpu:\n" + myCpu.getInformation() +
-                "\n\tmyRam:\n" + myRam.getInformation() +
-                "\n\tmyHdd:\n" + myHdd.getInformation() +
-                "\n\tmyDisplay:\n" + myDisplay.getInformation() +
-                "\n\tmyKeyboard:\n" + myKeyboard.getInformation() +
-                "\n\tОбщий вес ПК:\n" + getTotalWeight() + " г.";
+    public static String getAllComponents() {
+        return myCpu.getCoreCount() +
+                myCpu.getFrequency() +
+                myCpu.getManufacturer() +
+                myDisplay.getScreenSize() +
+                myDisplay.getDisplayType() +
+                myHdd.getCapacity() +
+                myHdd.getMemoryType() +
+                myKeyboard.getKeyboardType() +
+                myKeyboard.isBacklight() +
+                myRam.getCapacity() +
+                myRam.getRamType();
     }
 
 }

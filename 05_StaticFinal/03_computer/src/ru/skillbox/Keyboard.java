@@ -16,21 +16,18 @@ public class Keyboard {
         this.weight = weight;
     }
 
-    // Public methods
+    // Getters
+
+    public KeyboardType getKeyboardType() {
+        return KeyboardType.valueOf("Тип: " + keyboardType);
+    }
+
+    public String isBacklight() {
+        return "Подсветка: " + backlight;
+    }
 
     public double getWeight() {
         return weight;
-    }
-
-    public String getInformation() {
-        String backlight = "";
-        if (this.backlight) {
-            backlight = "Есть";
-        } else {
-            backlight = "Нету";
-        }
-        return "Тип: " + keyboardType +
-                "\nПодсветка: " + backlight;
     }
 
 }

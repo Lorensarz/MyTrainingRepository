@@ -16,15 +16,18 @@ public class Ram {
         this.weight = weight;
     }
 
-    // Public methods
+    // Getters
+
+    public RamType getRamType() {
+        return RamType.valueOf("Тип: " + ramType);
+    }
+
+    public String getCapacity() {
+        return "Объем: " + capacity;
+    }
 
     public double getWeight() {
         return weight;
-    }
-
-    public String getInformation() {
-        return "Тип: " + ramType +
-                "\nОбЪем: " + capacity;
     }
 
 }

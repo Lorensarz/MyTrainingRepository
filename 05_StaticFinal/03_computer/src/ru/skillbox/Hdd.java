@@ -16,15 +16,18 @@ public class Hdd {
         this.weight = weight;
     }
 
-    // Public methods
+    // Getters
+
+    public MemoryType getMemoryType() {
+        return MemoryType.valueOf("Тип: " + memoryType);
+    }
+
+    public String getCapacity() {
+        return "Вместимость: " + capacity;
+    }
 
     public double getWeight() {
         return weight;
-    }
-
-    public String getInformation() {
-        return "Тип: " + memoryType +
-                "\nОбъем памяти: " + capacity;
     }
 
 }

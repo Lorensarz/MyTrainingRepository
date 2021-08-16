@@ -5,7 +5,7 @@ public class Display {
     // Privat properties
 
     private final int screenSize;
-    private DisplayType displayType = DisplayType.IPS;
+    private final DisplayType displayType;
     private final double weight;
 
     // Initialization
@@ -16,15 +16,18 @@ public class Display {
         this.weight = weight;
     }
 
-    // Public methods
+    // Getters
+
+    public String getScreenSize() {
+        return "Диагональ: " + screenSize;
+    }
+
+    public DisplayType getDisplayType() {
+        return DisplayType.valueOf("Диагональ" + this.displayType);
+    }
 
     public double getWeight() {
         return weight;
-    }
-
-    public String getInformation() {
-        return "Диагональ: " + screenSize +
-                "\nТип:" + displayType;
     }
 
 }
