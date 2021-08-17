@@ -4,26 +4,26 @@ public class Hdd {
 
     // Private properties
 
-    MemoryType memoryType;
+    HddType hddType;
     private final int capacity;
     private final double weight;
 
     // Initialization
 
-    public Hdd(MemoryType memoryType, int capacity, double weight) {
-        this.memoryType = memoryType;
+    public Hdd(HddType hddType, int capacity, double weight) {
+        this.hddType = hddType;
         this.capacity = capacity;
         this.weight = weight;
     }
 
     // Getters
 
-    public MemoryType getMemoryType() {
-        return MemoryType.valueOf("Тип: " + memoryType);
+    public String getMemoryType() {
+        return "\nТип: " + hddType;
     }
 
     public String getCapacity() {
-        return "Вместимость: " + capacity;
+        return "\nВместимость: " + capacity;
     }
 
     public double getWeight() {

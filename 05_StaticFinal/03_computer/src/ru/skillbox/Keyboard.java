@@ -18,12 +18,18 @@ public class Keyboard {
 
     // Getters
 
-    public KeyboardType getKeyboardType() {
-        return KeyboardType.valueOf("Тип: " + keyboardType);
+    public String getKeyboardType() {
+        return "\nТип: " + keyboardType;
     }
 
     public String isBacklight() {
-        return "Подсветка: " + backlight;
+        String backlight = "";
+        if (this.backlight) {
+            backlight = "Есть";
+        } else {
+            backlight = "Нету";
+        }
+        return "\nПодсветка: " + backlight;
     }
 
     public double getWeight() {

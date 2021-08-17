@@ -18,12 +18,12 @@ public class Ram {
 
     // Getters
 
-    public RamType getRamType() {
-        return RamType.valueOf("Тип: " + ramType);
+    public String getRamType() {
+        return "\nТип: " + ramType;
     }
 
     public String getCapacity() {
-        return "Объем: " + capacity;
+        return "\nОбъем: " + capacity;
     }
 
     public double getWeight() {
