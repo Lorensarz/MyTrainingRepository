@@ -19,11 +19,11 @@ public class Display {
     // Getters
 
     public String getScreenSize() {
-        return "Диагональ: " + screenSize;
+        return "\nДиагональ: " + screenSize;
     }
 
-    public DisplayType getDisplayType() {
-        return DisplayType.valueOf("Диагональ" + this.displayType);
+    public String getDisplayType() {
+        return "\nТип:" + DisplayType.IPS;
     }
 
     public double getWeight() {

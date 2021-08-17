@@ -21,15 +21,15 @@ public class Cpu {
     // Getters
 
     public String getFrequency() {
-        return "Частота: " + frequency;
+        return "\nЧастота: " + frequency;
     }
 
     public String getCoreCount() {
-        return "Количество ядер: " + coreCount;
+        return "\nКоличество ядер: " + coreCount;
     }
 
     public String getManufacturer() {
-        return "Производитель: " + manufacturer;
+        return "\nПроизводитель: " + manufacturer;
     }
 
     public double getWeight() {

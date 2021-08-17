@@ -6,15 +6,21 @@ public class Computer {
 
     private final String vendor;
     private final String name;
+    private Cpu myCpu;
+    private Ram myRam;
+    private Hdd myHdd;
+    private Display myDisplay;
+    private Keyboard myKeyboard;
 
     // Initialization
 
-    public Computer(String vendor, String name) {
-        this.vendor = vendor;
-        this.name = name;
-    }
-
-    public Computer(String vendor, String name, Cpu myCpu, Ram myRam, Hdd myHdd, Display myDisplay, Keyboard myKeyboard) {
+    public Computer(String vendor,
+                    String name,
+                    Cpu myCpu,
+                    Ram myRam,
+                    Hdd myHdd,
+                    Display myDisplay,
+                    Keyboard myKeyboard) {
         this.vendor = vendor;
         this.name = name;
         this.myCpu = myCpu;
@@ -23,14 +29,6 @@ public class Computer {
         this.myDisplay = myDisplay;
         this.myKeyboard = myKeyboard;
     }
-
-    // Internal properties
-
-    static Cpu myCpu = new Cpu(3.2, 4, "intel", 110);
-    static Ram myRam = new Ram(RamType.DDR4, 4, 80);
-    static Hdd myHdd = new Hdd(MemoryType.SSD, 500, 250);
-    static Display myDisplay = new Display(27, DisplayType.IPS, 6100);
-    static Keyboard myKeyboard = new Keyboard(KeyboardType.MEHANICAL, true, 715);
 
     // Getters
 
@@ -57,46 +55,50 @@ public class Computer {
     // Setters
 
     public void setMyCpu(Cpu myCpu) {
-        Computer.myCpu = myCpu;
+        this.myCpu = myCpu;
     }
 
     public void setMyRam(Ram myRam) {
-        Computer.myRam = myRam;
+        this.myRam = myRam;
     }
 
     public void setMyHdd(Hdd myHdd) {
-        Computer.myHdd = myHdd;
+        this.myHdd = myHdd;
     }
 
     public void setMyDisplay(Display myDisplay) {
-        Computer.myDisplay = myDisplay;
+        this.myDisplay = myDisplay;
     }
 
     public void setMyKeyboard(Keyboard myKeyboard) {
-        Computer.myKeyboard = myKeyboard;
+        this.myKeyboard = myKeyboard;
     }
+
 
     // Public methods
 
-    public static String getTotalWeight() {
-        return "Общий вес ПК: " + myCpu.getWeight() +
+    public String getTotalWeight() {
+        double totalWeight = myCpu.getWeight() +
                 myRam.getWeight() +
                 myHdd.getWeight() +
                 myDisplay.getWeight() +
                 myKeyboard.getWeight();
+
+        return "Общий вес ПК: " + totalWeight;
     }
 
-    public static String getAllComponents() {
-        return myCpu.getCoreCount() +
-                myCpu.getFrequency() +
+    public String getAllComponents() {
+        return "Computer: " + vendor + " " + name +
+                "\n\tCPU: " + myCpu.getCoreCount() +
+                myCpu.getFrequency() + "GHz" +
                 myCpu.getManufacturer() +
-                myDisplay.getScreenSize() +
+                "\n\tDisplay: " + myDisplay.getScreenSize() + "Inch" +
                 myDisplay.getDisplayType() +
-                myHdd.getCapacity() +
+                "\n\tHDD: " + myHdd.getCapacity() + "Gb" +
                 myHdd.getMemoryType() +
-                myKeyboard.getKeyboardType() +
+                "\n\tKeyboard: " + myKeyboard.getKeyboardType() +
                 myKeyboard.isBacklight() +
-                myRam.getCapacity() +
+                "\n\tRAM: " + myRam.getCapacity() + "Gb" +
                 myRam.getRamType();
     }
 
