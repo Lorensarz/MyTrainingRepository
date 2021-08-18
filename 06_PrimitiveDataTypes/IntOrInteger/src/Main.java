@@ -10,7 +10,7 @@ public class Main {
 
         int i = 0;
 
-        for (i = 1040; i < 1103; i++) {
+        for (i = 1040; i < 1104; i++) {
             char a = (char) i;
             System.out.println(i + " - " + a);
         }
