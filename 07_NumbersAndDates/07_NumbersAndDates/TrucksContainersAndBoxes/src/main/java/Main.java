@@ -21,7 +21,7 @@ public class Main {
 
     }
 
-    private static int calculateTrucksCount(int totalContainers) {
+    private static int calculateTrucksCount() {
         totalTrucks = totalContainers / MAX_COUNT_CONTAINERS_IN_TRUCK;
 
         int remainderOfTheDivisionContainers = totalContainers % MAX_COUNT_CONTAINERS_IN_TRUCK;
@@ -32,12 +32,41 @@ public class Main {
 
     }
 
-   private static void printCalculateInformation(int boxes, int totalContainers, int totalTrucks) {
-        for (int boxesCounter = 1; boxesCounter <= boxes; boxesCounter++) {
+    private static void printCalculateInformation(int boxes, int totalContainers, int totalTrucks) {
+
+        int box;
+        int boxesCounter = 0;
+        int containersCounter = 0;
+
+
+        totalContainers++;
+        totalTrucks++;
+
+        System.out.println("Грузовик: " + totalTrucks);
+        System.out.println("\tКонтейнер: " + totalContainers);
+
+        for (box = 1; box <= boxes; box++) {
+            System.out.println("\t\tЯщик: " + box);
+
+            boxesCounter++;
+            if (boxesCounter == MAX_COUNT_BOXES_IN_CONTAINER) {
+                totalContainers++;
+                System.out.println("\tКонтейнер: " + totalContainers);
+                boxesCounter = 0;
 
             }
 
+            containersCounter++;
+            if (totalContainers == MAX_COUNT_CONTAINERS_IN_TRUCK) {
+                totalTrucks++;
+                System.out.println("Грузовик: " + totalTrucks);
+                containersCounter = 0;
+
+                }
+            }
         }
+
+
 
 
 
@@ -47,6 +76,9 @@ public class Main {
         int boxes = scanner.nextInt();
 
         printCalculateInformation(boxes, totalContainers, totalTrucks);
+        System.out.println("Необходимо:" + "\nГрузовиков - " + calculateTrucksCount() + " шт." +
+                "\nКонтейнеров - " + calculateContainersCount(boxes) + " шт.");
+        ;
 
 
         // TODO: вывести в консоль коробки разложенные по грузовикам и контейнерам
