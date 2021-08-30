@@ -1,12 +1,17 @@
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
 
     private static final int MAX_COUNT_BOXES_IN_CONTAINER = 27;
     private static final int MAX_COUNT_CONTAINERS_IN_TRUCK = 12;
+    private static final int MAX_COUNT_BOXES_IN_TRUCK = MAX_COUNT_BOXES_IN_CONTAINER *
+            MAX_COUNT_CONTAINERS_IN_TRUCK;
 
-    private static int totalContainers = 0;
-    private static int totalTrucks = 0;
+    private static int totalContainers = 1;
+    private static int totalTrucks = 1;
+
+
 
 
     private static int calculateContainersCount(int boxes) {
@@ -17,18 +22,18 @@ public class Main {
         if (remainderOfTheDivisionBoxes > 0) {
             totalContainers++;
         }
-        return totalContainers;
+        return totalContainers++;
 
     }
 
-    private static int calculateTrucksCount() {
-        totalTrucks = totalContainers / MAX_COUNT_CONTAINERS_IN_TRUCK;
+    private static int calculateTrucksCount(int boxes) {
+        totalTrucks = boxes / MAX_COUNT_BOXES_IN_TRUCK;
 
         int remainderOfTheDivisionContainers = totalContainers % MAX_COUNT_CONTAINERS_IN_TRUCK;
         if (remainderOfTheDivisionContainers > 0) {
             totalTrucks++;
         }
-        return totalTrucks;
+        return totalTrucks++;
 
     }
 
@@ -39,14 +44,19 @@ public class Main {
         int containersCounter = 0;
 
 
-        totalContainers++;
-        totalTrucks++;
-
         System.out.println("Грузовик: " + totalTrucks);
         System.out.println("\tКонтейнер: " + totalContainers);
 
         for (box = 1; box <= boxes; box++) {
             System.out.println("\t\tЯщик: " + box);
+
+            containersCounter++;
+            if (containersCounter == MAX_COUNT_BOXES_IN_TRUCK) {
+                totalTrucks++;
+                System.out.println("Грузовик: " + totalTrucks);
+                containersCounter = 0;
+
+            }
 
             boxesCounter++;
             if (boxesCounter == MAX_COUNT_BOXES_IN_CONTAINER) {
@@ -55,29 +65,21 @@ public class Main {
                 boxesCounter = 0;
 
             }
-
-            containersCounter++;
-            if (totalContainers == MAX_COUNT_CONTAINERS_IN_TRUCK) {
-                totalTrucks++;
-                System.out.println("Грузовик: " + totalTrucks);
-                containersCounter = 0;
-
-                }
-            }
         }
 
+    }
 
 
 
 
     public static void main(String[] args) {
-        System.out.println("Введите кол-во ящиков: ");
         Scanner scanner = new Scanner(System.in);
         int boxes = scanner.nextInt();
 
         printCalculateInformation(boxes, totalContainers, totalTrucks);
-        System.out.println("Необходимо:" + "\nГрузовиков - " + calculateTrucksCount() + " шт." +
-                "\nКонтейнеров - " + calculateContainersCount(boxes) + " шт.");
+        System.out.println("Необходимо:" + System.lineSeparator() + "Грузовиков - " + calculateTrucksCount(boxes) + " шт." +
+                System.lineSeparator() + "Контейнеров - " + calculateContainersCount(boxes) + " шт.");
+
         ;
 
 
