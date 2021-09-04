@@ -6,11 +6,6 @@ import java.util.Locale;
 
 public class Main {
 
-    // Private properties
-
-    private static int year;
-    private static int month;
-    private static int day;
 
     public static void main(String[] args) {
 
@@ -24,39 +19,9 @@ public class Main {
 
     }
 
-    // Getters
-    public static int getYear() {
-        return year;
-    }
-
-    public static int getMonth() {
-        return month;
-    }
-
-    public static int getDay() {
-        return day;
-    }
-
-    // Setters
-
-    public static void setYear(int year) {
-        Main.year = year;
-    }
-
-    public static void setMonth(int month) {
-        Main.month = month;
-    }
-
-    public static void setDay(int day) {
-        Main.day = day;
-    }
-
     // Public methods
 
     public static String collectBirthdays(int year, int month, int day) {
-        Main.year = year;
-        Main.month = month;
-        Main.day = day;
 
         /**
          1. создать переменные класса LocalDate — birthday и today
@@ -76,19 +41,18 @@ public class Main {
         LocalDate start = LocalDate.parse(stringBirthday, formatter);
         LocalDate end = LocalDate.parse(stringToday, formatter);
 
-        //while (today.isAfter(birthday)) {
-        //    birthday = birthday.plusYears(1);
-        //    System.out.println(formatter.format(birthday));
+        int age = 0;
+        String result = "";
 
-        for (birthday = start; birthday.isBefore(end); birthday = birthday.plusYears(1)) {
+        for (birthday = start; birthday.isBefore(end) || birthday.plusYears(1).equals(LocalDate.now()); birthday = birthday.plusYears(1)) {
+            result += age++ + " - " + formatter.format(birthday) + System.lineSeparator();
 
-            System.out.println(formatter.format(birthday));
         }
 
         //TODO реализуйте метод для построения строки в следующем виде
         //0 - 31.12.1990 - Mon
         //1 - 31.12.1991 - Tue
 
-        return "";
+        return result;
     }
 }
