@@ -35,18 +35,14 @@ public class Main {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy - EEE").localizedBy(
                 new Locale("us"));
 
-        String stringToday = today.format(formatter);
-        String stringBirthday = birthday.format(formatter);
-
-        LocalDate start = LocalDate.parse(stringBirthday, formatter);
-        LocalDate end = LocalDate.parse(stringToday, formatter);
 
         int age = 0;
         String result = "";
 
-        for (birthday = start; birthday.isBefore(end) || birthday.plusYears(1).equals(LocalDate.now()); birthday = birthday.plusYears(1)) {
-            result += age++ + " - " + formatter.format(birthday) + System.lineSeparator();
-
+        while (today.isAfter(birthday.plusYears(age)) ||
+                birthday.plusYears(age).equals(LocalDate.now())) {
+            result += age + " - " + formatter.format(birthday.plusYears(age)) + System.lineSeparator();
+            age++;
         }
 
         //TODO реализуйте метод для построения строки в следующем виде
