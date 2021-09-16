@@ -38,7 +38,9 @@ public class Main {
 
         //Total earnings
 
-        int totalEarnings = Integer.parseInt(vasya.trim()) + Integer.parseInt(petya.trim()) + Integer.parseInt(masha.trim());
+        int totalEarnings = Integer.parseInt(vasya.trim()) +
+                            Integer.parseInt(petya.trim()) +
+                            Integer.parseInt(masha.trim());
 
         return totalEarnings;
 
