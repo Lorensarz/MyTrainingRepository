@@ -1,6 +1,8 @@
 
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 
@@ -15,17 +17,21 @@ public class Main {
         break;
       }
 
+      Pattern pattern = Pattern.compile("[^\\d].*[а-яА-ЯёЁ]\\s+");
+      Matcher matcher = pattern.matcher(input);
 
-      String[] stringArray = input.split("\\s+");
+      String[] splitString = (input.split("\\s+"));
 
+        if (matcher.find()) {
+          System.out.println("Фамилия: " + splitString[0] +
+                  "\nИмя: " + splitString[1] +
+                  "\nОтчество: " + splitString[2]);
+        } else {
+          System.out.println("Введенная строка не является ФИО");
+        }
 
-      System.out.println("Фамилия: " + stringArray[0]);
-      System.out.println("Имя: " + stringArray[1]);
-      System.out.println("Отчество: " + stringArray[2]);
-
-      //TODO:напишите ваш код тут, результат вывести в консоль.
-      //При невалидном ФИО вывести в консоль: Введенная строка не является ФИО
+        //TODO:напишите ваш код тут, результат вывести в консоль.
+        //При невалидном ФИО вывести в консоль: Введенная строка не является ФИО
+      }
     }
   }
-
-}
