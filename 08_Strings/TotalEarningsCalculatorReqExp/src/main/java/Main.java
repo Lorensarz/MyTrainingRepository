@@ -4,12 +4,14 @@ import java.util.regex.Pattern;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(calculateSalarySum());
+
+        System.out.println(calculateSalarySum(
+                "Толя заработал 35000 рублей, а Лера - 45000 рублей"));
 
     }
 
-    public static int calculateSalarySum() {
-        String text = "Толя заработал 35000 рублей, а Лера - 45000 рублей";
+
+    public static int calculateSalarySum(String text) {
 
         Pattern pattern = Pattern.compile("(\\d+)");
         Matcher matcher = pattern.matcher(text);
@@ -28,7 +30,7 @@ public class Main {
 
         }
 
-        return -1;
+        return sum;
     }
 }
 //TODO: реализуйте метод
