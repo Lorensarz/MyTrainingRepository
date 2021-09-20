@@ -16,7 +16,7 @@ public class Main {
         Pattern pattern = Pattern.compile("(\\d+)");
         Matcher matcher = pattern.matcher(text);
 
-        Integer sum = 0;
+        int sum = 0;
 
         while (matcher.find()) {
             sum += Integer.parseInt(matcher.group(1));

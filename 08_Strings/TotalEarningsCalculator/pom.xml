@@ -77,6 +77,12 @@
             <artifactId>checkstyle</artifactId>
             <version>${puppycrawl.version}</version>
         </dependency>
+        <dependency>
+            <groupId>be.atbash.ee.jsf.valerie</groupId>
+            <artifactId>valerie-primefaces</artifactId>
+            <version>0.9.0.3</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>
