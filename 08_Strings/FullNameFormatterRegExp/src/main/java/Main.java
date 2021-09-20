@@ -23,11 +23,8 @@ public class Main {
 
             String[] splitString = (input.split("\\s+"));
 
-            if (splitString.length != 3) {
 
-            }
-
-            if (matcher.find()) {
+            if (matcher.find() && splitString.length == 3) {
                 System.out.println("Фамилия: " + splitString[0] +
                         "\nИмя: " + splitString[1] +
                         "\nОтчество: " + splitString[2]);
