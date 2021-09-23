@@ -14,24 +14,19 @@ public class Main {
             String phoneCleaner = input.replaceAll("[^0-9]+", "");
 
 
-            if (phoneCleaner.length() == 11) {
-                System.out.println(phoneCleaner);
-            }
-
-            if (phoneCleaner.length() > 11 || phoneCleaner.length() < 10) {
-                System.out.println("Неверный формат номера");
+            if (phoneCleaner.indexOf("8") == 0) {
+                phoneCleaner = phoneCleaner.replaceFirst("8", "7");
             }
 
             if (phoneCleaner.length() == 10) {
-                System.out.println("7" + phoneCleaner);
+                phoneCleaner = "7" + phoneCleaner;
             }
 
-            if (phoneCleaner.indexOf(0) == 8) {
-
-                StringBuilder sb = new StringBuilder(phoneCleaner);
-                sb.setCharAt(0, '7');
-                System.out.println(sb);
+            if (phoneCleaner.indexOf("7") != 0 || phoneCleaner.length() != 11) {
+                System.out.println("Неверный формат номера");
+                break;
             }
+            System.out.println(phoneCleaner);
 
 
             //TODO:напишите ваш код тут, результат вывести в консоль.
