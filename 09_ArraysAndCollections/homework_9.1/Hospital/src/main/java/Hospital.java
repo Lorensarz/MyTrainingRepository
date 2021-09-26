@@ -8,7 +8,7 @@ public class Hospital {
 
         float[] patientsTemperatures = new float[patientsCount];
         for (int i = 0; i < patientsTemperatures.length; i++) {
-            patientsTemperatures[i] = 42 + (float) (32 * Math.random());
+            patientsTemperatures[i] = 32 + (float) (8 * Math.random());
         }
         return patientsTemperatures;
     }
@@ -36,10 +36,10 @@ public class Hospital {
         }
 
 
-        String report = "Температуры пациентов: " + patientsTemperatures +
-                        "\nСредняя температура: " +
+        String report = "Температуры пациентов: " + patientsTemperatures.trim() + System.lineSeparator() +
+                        "Средняя температура: " +
                 String.format("%.2f", (averageTemperature / temperatureData.length)) +
-                        "\nКоличество здоровых: " + countHealthyPatients;
+                System.lineSeparator() + "Количество здоровых: " + countHealthyPatients;
 
         return report;
     }
