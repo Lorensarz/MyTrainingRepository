@@ -29,9 +29,11 @@ public class Hospital {
         int countHealthyPatients = 0;
 
         for (float patients : temperatureData) {
+            float minTemperature = 36.2F;
+            float maxTemperature = 36.9F;
             patientsTemperatures += String.format("%.1f", patients) + " ";
             averageTemperature += patients;
-            if (patients >= 36.2F && patients <= 36.9F)
+            if (patients >= minTemperature && patients <= maxTemperature)
                 countHealthyPatients++;
         }
 
