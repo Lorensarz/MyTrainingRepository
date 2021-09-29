@@ -31,7 +31,7 @@ public class TodoList {
         //  проверьте возможность изменения
         if (index <= todoList.size()) {
             todoList.set(index, todo);
-            System.out.println("Дело " + index + " заменено на " + todo);
+
 
         }
 
@@ -43,7 +43,7 @@ public class TodoList {
         //  проверьте возможность удаления дела
         if (index < todoList.size()) {
             todoList.remove(index);
-            System.out.println("Дело " + '"' + index + '"' + " удалено");
+
         }
         if (index > todoList.size()) {
             System.out.println("Дело с таким номером не существует");
@@ -52,9 +52,6 @@ public class TodoList {
     }
 
     public ArrayList<String> getTodos() {
-        for(int i = 0; i < todoList.size(); i++){
-            System.out.println(todoList.get(i));
-        }
         // TODO: вернуть список дел
 
         return todoList;
