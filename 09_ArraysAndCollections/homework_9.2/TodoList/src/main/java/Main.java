@@ -51,15 +51,14 @@ public class Main {
                 int index = Integer.parseInt(resultTodo[1]);
                 todoList.getTodos();
 
-                for (int i = 0; i < todoList.getTodos().size(); i++) {
-                    System.out.println("Дело " + todoList.getTodos().get(i) + " заменено на " + todo);
-                    todoList.edit(todo, index);
-
-                }
+                System.out.println("Дело " + todoList.getTodos().get(index) + " заменено на " + todo);
+                todoList.edit(todo, index);
 
             }
+
         }
     }
 }
+
 
 
