@@ -1,10 +1,9 @@
-import java.util.Iterator;
 import java.util.Scanner;
 
-public class Main {
-    public static final String WRONG_EMAIL_ANSWER = "Неверный формат email";
-
-    private static final EmailList emailList = new EmailList();
+//public class Main {
+//    public static final String WRONG_EMAIL_ANSWER = "Неверный формат email";
+//
+//    private static final EmailList emailList = new EmailList();
     
     /* TODO:
         Пример вывода списка Email, после ввода команды LIST в консоль:
@@ -19,7 +18,7 @@ public class Main {
         Пример вывода сообщения об ошибке при неверном формате Email:
         "Неверный формат email"
     */
-
+/*
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -51,4 +50,31 @@ public class Main {
 
         }
     }
+}
+*/
+
+public class Main {
+
+  private final static String COMMAND_ADD = "ADD";
+  private final static String COMMAND_LIST = "LIST";
+
+  public static void main(String[] args) {
+    EmailList emailList = new EmailList();
+
+    for (; ; ) {
+   String userInput = UserInput.getLine();
+
+      if (userInput.startsWith(COMMAND_ADD)) {
+        emailList.add(userInput.replaceFirst(COMMAND_ADD, "").trim());
+
+      } else if (userInput.equals(COMMAND_LIST)) {
+        emailList.printList();
+
+      } else {
+        System.out.println("неверная команда");
+
+      }
+
+    }
+  }
 }

@@ -8,9 +8,9 @@ public class EmailList {
     TreeSet<String> emailList = new TreeSet<>();
 
     public void add(String email) {
-        Pattern pattern = Pattern.compile(
-                "[A-Za-z]+@[A-Za-z]+\\.[a-z]+");
+        Pattern pattern = Pattern.compile("[A-Za-z]+@[A-Za-z]+\\.[a-z]+");
         Matcher matcher = pattern.matcher(email);
+
 
         if (matcher.find()) {
             email = email.toLowerCase(Locale.ROOT);
@@ -31,4 +31,12 @@ public class EmailList {
 
     }
 
+
+    public void printList() {
+        for (int i = 0; i < getSortedEmails().size(); i++) {
+            System.out.println(getSortedEmails().get(i));
+        }
+
+    }
 }
+
