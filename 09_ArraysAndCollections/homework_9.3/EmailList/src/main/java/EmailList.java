@@ -1,3 +1,5 @@
+import org.checkerframework.checker.regex.qual.Regex;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -5,14 +7,14 @@ import java.util.regex.Pattern;
 
 public class EmailList {
 
+    private final static String REGEX_EMAIL = "[A-Za-z]+@[A-Za-z]+\\.[a-z]+";
+
+
     TreeSet<String> emailList = new TreeSet<>();
 
     public void add(String email) {
-        Pattern pattern = Pattern.compile("[A-Za-z]+@[A-Za-z]+\\.[a-z]+");
-        Matcher matcher = pattern.matcher(email);
 
-
-        if (matcher.find()) {
+        if (email.matches(REGEX_EMAIL)) {
             email = email.toLowerCase(Locale.ROOT);
             emailList.add(email);
 
