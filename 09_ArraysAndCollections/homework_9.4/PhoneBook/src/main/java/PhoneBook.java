@@ -5,13 +5,13 @@ public class PhoneBook {
     TreeMap<String, TreeSet<String>> contacts = new TreeMap<>();
 
     public void addContact(String phone, String name) {
-        String checkPhone = Validator.phoneFormatter(phone);
+
         if (Validator.nameFormatter(name) &&
-                phone.equals(checkPhone) &&
+                phone.equals(Validator.phoneFormatter(phone)) &&
                 !phone.isEmpty()) {
 
             TreeSet<String> newPhone = new TreeSet<>();
-            newPhone.add(checkPhone);
+            newPhone.add(phone);
 
             if (contacts.containsValue(newPhone)) {
                 for (String key : contacts.keySet()) {
@@ -22,7 +22,7 @@ public class PhoneBook {
                 contacts.put(name, newPhone);
             } else if (contacts.containsKey(name)) {
                 TreeSet<String> currentsPhone = contacts.get(name);
-                currentsPhone.add(checkPhone);
+                currentsPhone.add(phone);
                 contacts.put(name, currentsPhone);
             } else {
                 contacts.put(name, newPhone);
@@ -48,8 +48,6 @@ public class PhoneBook {
             }
         }
 
-        // формат одного контакта "Имя - Телефон"
-        // если контакт не найдены - вернуть пустую строку
         return contact;
 
     }
@@ -61,8 +59,6 @@ public class PhoneBook {
             contact.add(formattedContact);
         }
 
-        // формат одного контакта "Имя - Телефон"
-        // если контакт не найден - вернуть пустой TreeSet
         return contact;
     }
 
@@ -75,8 +71,6 @@ public class PhoneBook {
             allContacts.add(formatContact);
         }
 
-        // формат одного контакта "Имя - Телефон"
-        // если контактов нет в телефонной книге - вернуть пустой TreeSet
         return allContacts;
     }
 
