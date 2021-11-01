@@ -5,7 +5,7 @@ public class Validator {
         return name.matches(REGEX_NAME);
     }
 
-    public static String phoneFormatter(String phone) {
+    public static boolean phoneFormatter(String phone) {
         String phoneCleaner = phone.replaceAll("[^0-9]+", "");
 
         if (phoneCleaner.indexOf("8") == 0) {
@@ -19,10 +19,10 @@ public class Validator {
         }
 
         if (phoneCleaner.indexOf("7") != 0 || phoneCleaner.length() != 11) {
-            return "";
+            return false;
 
         }
-        return phoneCleaner;
+        return true;
 
     }
 }

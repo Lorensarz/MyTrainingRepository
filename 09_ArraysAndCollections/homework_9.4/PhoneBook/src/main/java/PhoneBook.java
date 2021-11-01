@@ -7,7 +7,7 @@ public class PhoneBook {
     public void addContact(String phone, String name) {
 
         if (Validator.nameFormatter(name) &&
-                phone.equals(Validator.phoneFormatter(phone)) &&
+                Validator.phoneFormatter(phone) &&
                 !phone.isEmpty()) {
 
             TreeSet<String> newPhone = new TreeSet<>();
