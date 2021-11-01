@@ -25,7 +25,7 @@ public class Main {
                     continue;
                 }
 
-                if (input.matches(REGEX_NAME)) {
+                if (Validator.nameFormatter(input)) {
                     if (phoneBook.getContactByName(input).isEmpty()) {
                         System.out.println("Такого имени в телефонной книге нет.");
                         System.out.println("Введите номер телефона для абонента \"" + input + "\":");

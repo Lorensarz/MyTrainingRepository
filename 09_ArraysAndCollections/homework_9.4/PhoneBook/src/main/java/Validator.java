@@ -8,17 +8,17 @@ public class Validator {
     public static boolean phoneFormatter(String phone) {
         String phoneCleaner = phone.replaceAll("[^0-9]+", "");
 
-        if (phoneCleaner.indexOf("8") == 0) {
-            phoneCleaner = phoneCleaner.replaceFirst("8", "7");
+        if (phoneCleaner.indexOf("7") == 0) {
+            phoneCleaner = phoneCleaner.replaceFirst("7", "8");
 
         }
 
         if (phoneCleaner.length() == 10) {
-            phoneCleaner = "7" + phoneCleaner;
+            phoneCleaner = "8" + phoneCleaner;
 
         }
 
-        if (phoneCleaner.indexOf("7") != 0 || phoneCleaner.length() != 11) {
+        if (phoneCleaner.indexOf("8") != 0 || phoneCleaner.length() != 11) {
             return false;
 
         }
