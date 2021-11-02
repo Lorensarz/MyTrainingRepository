@@ -3,7 +3,6 @@ import java.util.Set;
 
 public class Main {
     private final static String COMMAND_LIST = "LIST";
-    private final static String REGEX_NAME = "[А-Яа-яЁё]+";
     private static final PhoneBook phoneBook = new PhoneBook();
 
     public static void main(String[] args) {
@@ -47,7 +46,7 @@ public class Main {
                         System.out.println("Контакт сохранен!");
 
                     } else {
-                        System.out.println(phoneBook.getContactByName(input));
+                        System.out.println(phoneBook.getContactByPhone(input));
                     }
 
                 } else {
