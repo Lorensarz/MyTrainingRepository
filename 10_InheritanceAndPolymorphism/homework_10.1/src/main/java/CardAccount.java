@@ -8,9 +8,8 @@ public class CardAccount extends BankAccount {
 
     @Override
     public boolean send(BankAccount receiver, double amount) {
-        if (amount <= amountOfMoney) {
-            receiver.put(amount);
-            amountOfMoney -= amount + (amount * 0.01);
+        if (amount <= amountOfMoney && receiver.put(amount)) {
+            amountOfMoney -= (amount + (amount * 0.01));
             return true;
 
         }

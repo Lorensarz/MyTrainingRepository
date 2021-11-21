@@ -22,17 +22,11 @@ public class DepositAccount extends BankAccount {
         return false;
     }
 
+
     @Override
     public boolean send(BankAccount receiver, double amount) {
         if (LocalDate.now().isAfter(lastIncome.plusMonths(1))) {
-            if (amount <= amountOfMoney) {
-                receiver.put(amount);
-                amountOfMoney -= amount;
-                return true;
-
-            }
-            return false;
-
+            return super.send(receiver, amount);
         }
         return true;
 

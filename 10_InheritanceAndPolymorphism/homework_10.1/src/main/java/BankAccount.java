@@ -3,7 +3,7 @@
 public class BankAccount {
 
 
-    public double amountOfMoney;
+    double amountOfMoney;
 
 
     public double getAmount() {
@@ -29,15 +29,10 @@ public class BankAccount {
     }
 
     public boolean send(BankAccount receiver, double amount) {
-        if (amount <= amountOfMoney) {
-            receiver.put(amount);
+        if (amountOfMoney > 0 && receiver.put(amount)) {
             amountOfMoney -= amount;
             return true;
-
         }
         return false;
-
     }
-
-
 }

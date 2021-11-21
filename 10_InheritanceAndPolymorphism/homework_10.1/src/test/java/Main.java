@@ -6,11 +6,11 @@ public class Main {
         BankAccount bankAccount = new BankAccount();
         CardAccount cardAccount = new CardAccount();
         DepositAccount depositAccount = new DepositAccount();
-        System.out.println(cardAccount.put(200));
-        System.out.println(cardAccount.getAmount());
-        System.out.println(cardAccount.send(depositAccount, 50));
-        System.out.println(cardAccount.getAmount());
-        System.out.println(depositAccount.getAmount());
+        bankAccount.put(200);
+        System.out.println("bankAccount - " + bankAccount.getAmount());
+        bankAccount.send(cardAccount, 50);
+        System.out.println("bankAccount - " + bankAccount.getAmount());
+        System.out.println("cardAccount - " + cardAccount.getAmount());
 
 
     }
