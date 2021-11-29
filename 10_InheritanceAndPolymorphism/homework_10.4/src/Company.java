@@ -6,6 +6,7 @@ import java.util.List;
 public class Company implements Comparator<Employee> {
 
 
+
     private final List<Employee> employees = new ArrayList<>();
 
     public void hire(Employee employee) {
