@@ -14,7 +14,8 @@ public class Main {
     }
 
     public static void sortBySalaryAndAlphabet(List<Employee> staff) {
-        staff.sort(Comparator.comparing(Employee :: getSalary).thenComparing(Employee::getName));
+        staff.sort(Comparator.comparing(Employee :: getSalary)
+                .thenComparing(Employee::getName));
 
         for (Employee employee : staff) {
             System.out.println(employee);
