@@ -18,12 +18,16 @@ public class RouteCalculator {
             return route;
         }
 
+        route = getRouteWithTwoConnections(from, to);
+        if (route != null) {
+            return route;
+        }
+
         route = getRouteWithOneConnection(from, to);
         if (route != null) {
             return route;
         }
 
-        route = getRouteWithTwoConnections(from, to);
         return route;
     }
 
@@ -81,6 +85,7 @@ public class RouteCalculator {
 
         List<Station> fromLineStations = from.getLine().getStations();
         List<Station> toLineStations = to.getLine().getStations();
+
         for (Station srcStation : fromLineStations) {
             for (Station dstStation : toLineStations) {
                 if (isConnected(srcStation, dstStation)) {
@@ -122,6 +127,8 @@ public class RouteCalculator {
 
         ArrayList<Station> route = new ArrayList<>();
 
+        int connectionCount = 1;
+
         List<Station> fromLineStations = from.getLine().getStations();
         List<Station> toLineStations = to.getLine().getStations();
 
@@ -136,11 +143,15 @@ public class RouteCalculator {
                 way.addAll(Objects.requireNonNull(getRouteOnTheLine(from, srcStation)));
                 way.addAll(connectedLineRoute);
                 way.addAll(Objects.requireNonNull(getRouteOnTheLine(dstStation, to)));
+                connectionCount++;
                 if (route.isEmpty() || route.size() > way.size()) {
                     route.clear();
                     route.addAll(way);
                 }
             }
+        }
+        if (connectionCount < 2) {
+            return null;
         }
 
         return route;

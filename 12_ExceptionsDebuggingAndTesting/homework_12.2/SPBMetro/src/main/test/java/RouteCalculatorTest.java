@@ -13,103 +13,100 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RouteCalculatorTest {
 
     private static List<Station> route;
+    private static List<Station>  routeExpected;
+    private static List<Station>  routeExpected1;
+    private static List<Station>  routeExpected2;
+    private static RouteCalculator calculator;
     private static StationIndex stationIndex;
-    private static RouteCalculator routeCalculator;
 
     @BeforeAll
     static void setUp() {
 
-        stationIndex = new StationIndex();
+        routeExpected = new ArrayList<>();
         route = new ArrayList<>();
+        routeExpected1 = new ArrayList<>();
+        routeExpected2 = new ArrayList<>();
 
-        Line lineFirst = new Line(1, "First");
-        Line lineSecond = new Line(2, "Second");
-        Line lineThird = new Line(3, "Third");
+        Line line1 = new Line(1, "L1");
+        Line line2 = new Line(2, "L2");
+        Line line3 = new Line(3, "L3");
 
-        stationIndex.addLine(lineFirst);
-        stationIndex.addLine(lineSecond);
-        stationIndex.addLine(lineThird);
+        route.add(new Station("ST1-L1", line1));
+        line1.addStation(route.get(0));
+        route.add(new Station("ST2-L1", line1));
+        line1.addStation(route.get(1));
+        route.add(new Station("ST3-L1", line1));
+        line1.addStation(route.get(2));
+        route.add(new Station("ST1-L2", line2));
+        line2.addStation(route.get(3));
+        route.add(new Station("ST2L2", line2));
+        line2.addStation(route.get(4));
+        route.add(new Station("ST3-L2", line2));
+        line2.addStation(route.get(5));
+        route.add(new Station("ST4-L2", line2));
+        line2.addStation(route.get(6));
+        route.add(new Station("ST1-L3", line3));
+        line3.addStation(route.get(7));
+        route.add(new Station("ST2-L3", line3));
+        line3.addStation(route.get(8));
+        route.add(new Station("ST3-L3", line3));
+        line3.addStation(route.get(9));
 
-        Station st1l1 = new Station("L1-ST-1", lineFirst);
-        Station st2l1 = new Station("L1-ST-2", lineFirst);
-        Station st3l1 = new Station("L1-ST-3", lineFirst);
+        stationIndex = new StationIndex();
+        stationIndex.addLine(line1);
+        stationIndex.addLine(line2);
+        stationIndex.addLine(line3);
 
-        lineFirst.addStation(st1l1);
-        lineFirst.addStation(st2l1);
-        lineFirst.addStation(st3l1);
+        route.forEach(stationIndex::addStation);
 
-        Station st1l2 = new Station("L2-ST-1", lineSecond);
-        Station st2l2 = new Station("L2-ST-2", lineSecond);
-        Station st3l2 = new Station("L2-ST-3", lineSecond);
-        Station st4l2 = new Station("L2-ST-4", lineSecond);
+        List<Station> connection = new ArrayList<>();
+        connection.add(route.get(5));
+        connection.add(route.get(1));
 
-        lineSecond.addStation(st1l2);
-        lineSecond.addStation(st2l2);
-        lineSecond.addStation(st3l2);
-        lineSecond.addStation(st4l2);
+        stationIndex.addConnection(connection);
 
-        Station st1l3 = new Station("L3-ST-1", lineThird);
-        Station st2l3 = new Station("L3-ST-2", lineThird);
-        Station st3l3 = new Station("L3-ST-3", lineThird);
+        connection.clear();
+        connection.add(route.get(6));
+        connection.add(route.get(8));
 
-        stationIndex.addStation(st1l1);
-        stationIndex.addStation(st2l1);
-        stationIndex.addStation(st3l1);
-        stationIndex.addStation(st1l2);
-        stationIndex.addStation(st2l2);
-        stationIndex.addStation(st3l2);
-        stationIndex.addStation(st4l2);
-        stationIndex.addStation(st1l3);
-        stationIndex.addStation(st2l3);
-        stationIndex.addStation(st3l3);
+        stationIndex.addConnection(connection);
 
-        route.add(st1l1);
-        route.add(st2l1);
-        route.add(st2l2);
-        route.add(st3l2);
+        calculator = new RouteCalculator(stationIndex);
 
-        List<Station> connection1to2 = new ArrayList<>();
-        connection1to2.add(st2l1);
-        connection1to2.add(st2l2);
+        routeExpected.add(route.get(0));
+        routeExpected.add(route.get(1));
+        routeExpected.add(route.get(2));
 
+        routeExpected1.add(route.get(0));
+        routeExpected1.add(route.get(1));
+        routeExpected1.add(route.get(5));
+        routeExpected1.add(route.get(4));
+        routeExpected1.add(route.get(3));
 
-        List<Station> connection2to3 = new ArrayList<>();
-        connection2to3.add(st4l2);
-        connection2to3.add(st2l3);
-
-        stationIndex.addConnection(connection1to2);
-        stationIndex.addConnection(connection2to3);
-
-        routeCalculator = new RouteCalculator(stationIndex);
-
+        routeExpected2.add(route.get(0));
+        routeExpected2.add(route.get(1));
+        routeExpected2.add(route.get(5));
+        routeExpected2.add(route.get(6));
+        routeExpected2.add(route.get(8));
+        routeExpected2.add(route.get(9));
     }
 
     @Test
     @DisplayName("Корректное получение маршрута на одной линии")
     public void getShortestRouteOnTheLine() {
-        List<Station> expected = new ArrayList<>();
-        expected.add(stationIndex.getStation("L1-ST-1", 1));
-        expected.add(stationIndex.getStation("L1-ST-2", 1));
-        expected.add(stationIndex.getStation("L1-ST-3", 1));
-        assertEquals(expected, routeCalculator.getShortestRoute(
-                stationIndex.getStation("L1-ST-1", 1),
-                stationIndex.getStation("L1-ST-3", 1)));
+        List<Station> actual = calculator.getShortestRoute(route.get(0), route.get(2));
+        List<Station> expected = routeExpected;
+        assertEquals(expected, actual);
+
 
     }
 
     @Test
     @DisplayName("Корректное получение маршрута с одной пересадкой")
     public void getShortestRouteWithOneConnection() {
-
-        List<Station> expected = new ArrayList<>();
-        expected.add(stationIndex.getStation("L1-ST-1", 1));
-        expected.add(stationIndex.getStation("L1-ST-2", 1));
-        expected.add(stationIndex.getStation("L2-ST-2", 2));
-        expected.add(stationIndex.getStation("L2-ST-1", 2));
-
-        assertEquals(expected, routeCalculator.getShortestRoute(
-                stationIndex.getStation("L1-ST-1", 1),
-                stationIndex.getStation("L2-ST-1", 2)));
+        List<Station> actual = calculator.getShortestRoute(route.get(0), route.get(3));
+        List<Station> expected = routeExpected1;
+        assertEquals(expected, actual);
 
     }
 
@@ -117,18 +114,9 @@ public class RouteCalculatorTest {
     @DisplayName("Корректное получение маршрута с двумя пересадками")
     public void getShortestRouteWithTwoConnection() {
 
-        List<Station> expected = new ArrayList<>();
-        expected.add(stationIndex.getStation("L1-ST-1", 1));
-        expected.add(stationIndex.getStation("L1-ST-2", 1));
-        expected.add(stationIndex.getStation("L2-ST-2", 2));
-        expected.add(stationIndex.getStation("L2-ST-3", 2));
-        expected.add(stationIndex.getStation("L2-ST-4", 2));
-        expected.add(stationIndex.getStation("L3-ST-2", 3));
-        expected.add(stationIndex.getStation("L3-ST-3", 3));
-
-        assertEquals(expected, routeCalculator.getShortestRoute(
-                stationIndex.getStation("L1-ST-3", 1),
-                stationIndex.getStation("L3-ST-3", 3)));
+        List<Station> actual = calculator.getShortestRoute(route.get(0), route.get(9));
+        List<Station> expected = routeExpected2;
+        assertEquals(expected, actual);
 
     }
 
@@ -137,7 +125,7 @@ public class RouteCalculatorTest {
     public void calculateDuration() {
 
         double actual = RouteCalculator.calculateDuration(route);
-        double expected = 8.5;
+        double expected = 24.5;
         double delta = 0;
         assertEquals(expected, actual, delta);
 
