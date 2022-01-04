@@ -4,14 +4,22 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Main {
-    private static final String DATA_FILE = "C:/Skillbox/java_basics/12_ExceptionsDebuggingAndTesting/homework_12.2/SPBMetro/src/main/resources/map.json";
+
+
+    private static final Logger logger = LogManager.getLogger("MyFile");
+
+    private static final String DATA_FILE =
+            "C:/Skillbox/java_basics/12_ExceptionsDebuggingAndTesting/homework_12.2/SPBMetro/src/main/resources/map.json";
     private static Scanner scanner;
 
     private static StationIndex stationIndex;
@@ -22,15 +30,24 @@ public class Main {
         System.out.println("Программа расчёта маршрутов метрополитена Санкт-Петербурга\n");
         scanner = new Scanner(System.in);
         for (; ; ) {
-            Station from = takeStation("Введите станцию отправления:");
-            Station to = takeStation("Введите станцию назначения:");
+            try {
+                Station from = takeStation("Введите станцию отправления:");
+                Station to = takeStation("Введите станцию назначения:");
 
-            List<Station> route = calculator.getShortestRoute(from, to);
-            System.out.println("Маршрут:");
-            printRoute(route);
+                logger.info("Cуществующая станция отправления: " + from);
+                logger.info("Cуществующая станция назначения: " + to);
 
-            System.out.println("Длительность: " +
-                    RouteCalculator.calculateDuration(route) + " минут");
+                List<Station> route = calculator.getShortestRoute(from, to);
+                System.out.println("Маршрут:");
+                printRoute(route);
+
+                System.out.println("Длительность: " +
+                        RouteCalculator.calculateDuration(route) + " минут");
+
+            } catch (Exception e) {
+                logger.error("Exceptions errors: " + e.getMessage());
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -63,6 +80,7 @@ public class Main {
             if (station != null) {
                 return station;
             }
+            logger.warn("Несуществующая станция: " + line);
             System.out.println("Станция не найдена :(");
         }
     }
