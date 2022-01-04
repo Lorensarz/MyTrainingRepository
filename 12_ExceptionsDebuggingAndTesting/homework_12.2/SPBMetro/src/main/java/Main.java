@@ -4,7 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -100,6 +100,7 @@ public class Main {
             JSONArray connectionsArray = (JSONArray) jsonData.get("connections");
             parseConnections(connectionsArray);
         } catch (Exception ex) {
+            logger.fatal("Exceptions errors: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -158,6 +159,7 @@ public class Main {
             List<String> lines = Files.readAllLines(Paths.get(DATA_FILE));
             lines.forEach(line -> builder.append(line));
         } catch (Exception ex) {
+            logger.error("Exceptions errors: " + ex.getMessage());
             ex.printStackTrace();
         }
         return builder.toString();
