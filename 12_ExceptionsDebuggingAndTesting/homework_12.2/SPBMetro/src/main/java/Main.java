@@ -100,7 +100,7 @@ public class Main {
             JSONArray connectionsArray = (JSONArray) jsonData.get("connections");
             parseConnections(connectionsArray);
         } catch (Exception ex) {
-            logger.fatal("Exceptions errors: " + ex.getMessage());
+            logger.error("Exceptions errors: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
