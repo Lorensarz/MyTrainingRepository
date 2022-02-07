@@ -61,7 +61,7 @@ public class Movements {
         double sum = 0;
         for (Fields expense : fields) {
             try {
-                double doubleExpense = Double.parseDouble(expense.getExpense().replaceAll("[^\\d.]", ""));
+                double doubleExpense = Double.parseDouble(expense.getExpense());
                 sum += doubleExpense;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -76,7 +76,7 @@ public class Movements {
         double sum = 0;
         for (Fields income : fields) {
             try {
-                double doubleIncome = Double.parseDouble(income.getIncome().replaceAll("[^\\d.]", ""));
+                double doubleIncome = Double.parseDouble(income.getIncome());
                 sum += doubleIncome;
             } catch (Exception e) {
                 e.printStackTrace();
