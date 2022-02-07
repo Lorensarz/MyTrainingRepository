@@ -14,7 +14,7 @@ import org.jsoup.select.Elements;
 
 public class Main {
 
-    private static String IMAGE_DESTINATION_FOLDER =
+    private static final String IMAGE_DESTINATION_FOLDER =
             "C:\\images";
 
     public static void main(String[] args) throws IOException {
