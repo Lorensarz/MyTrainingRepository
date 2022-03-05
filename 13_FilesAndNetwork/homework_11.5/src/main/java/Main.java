@@ -1,68 +1,42 @@
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
-import java.util.*;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    private static final String dataFile = "C:/Skillbox/java_basics/13_FilesAndNetwork/files/metro.json";
 
-        JSONObject jsonMoscowMetro = new JSONObject();
+    public static void main(String[] args) throws ParseException {
 
-        String strUrl = "https://skillbox-java.github.io/";
+        JSONParser parser = new JSONParser();
+        JSONObject jsonData = (JSONObject) parser.parse(getJsonFile());
+        JSONObject stationsObject = (JSONObject) jsonData.get("stations");
 
-        Document document = Jsoup.connect(strUrl).maxBodySize(0).get();
-
-        Elements linesElements = document.select(".js-metro-line");
-        Elements stationElements = document.select(".js-depend");
-
-        Iterator<Element> iterateLines = linesElements.iterator();
-        Iterator<Element> iterateStations = stationElements.iterator();
-
-        ArrayList<Line> lines = new ArrayList<>();
-
-        Map<String, String> stationsMap = new HashMap<>();
-        Map<String, ArrayList<String>> stations = new HashMap<>();
-        ArrayList<String> stationsList;
-
-
-
-//        while (iterateStations.hasNext()) {
-//            Element e = iterateStations.next();
-//            stationsList = new ArrayList<>(Arrays.asList(e.text().replaceAll("[\\d.]+?( )", "")));
-////            System.out.println(stationsList);
-//        }
-//        System.out.println(stationsList);
-
-
-        int counter = 0;
-        while (iterateStations.hasNext()) {
-            Element e = iterateStations.next();
-            counter += 1;
-            stationsMap.put(Integer.toString(counter), e.text().replaceAll("[\\d.]", ""));
-
-        }
-//        stationsMap.forEach((a,b) -> System.out.println("Key: " + a + "\t" + "Value: " + b));
-
-
-        int counterLines = 0;
-        while (iterateLines.hasNext()) {
-            Element e = iterateLines.next();
-            counterLines += 1;
-            lines.add(new Line(counterLines, e.text()));
-
-        }
-
-        jsonMoscowMetro.put("lines", lines);
-        jsonMoscowMetro.put("stations", stationsMap);
-        System.out.println(jsonMoscowMetro);
-
+        stationsObject.keySet()
+                .stream()
+                .sorted(Comparator.comparing(s -> Integer.parseInt(((String) s)
+                .replaceAll("[^\\d]", "")))).forEach(lineNumber -> {
+                    JSONArray stationArray = (JSONArray) stationsObject.get(lineNumber);
+                    int stationsCount = stationArray.toList().size();
+                    System.out.println("Номер линии: " + lineNumber + " - количество станций: " + stationsCount);
+                });
 
     }
 
+    private static String getJsonFile() {
+        StringBuilder builder = new StringBuilder();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(dataFile));
+            lines.forEach(builder::append);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
+    }
 }

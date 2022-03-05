@@ -1,22 +1,22 @@
 public class Line {
 
 
-    public Line(int number, String name) {
+    public Line(String number, String name) {
         this.number = number;
         this.name = name;
     }
 
 
-    private int number;
+    private String number;
     private String name;
 
 
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -26,5 +26,13 @@ public class Line {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Line{" +
+                "number='" + number + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
