@@ -17,27 +17,24 @@ public class ParseHtml {
 
         Document doc = Jsoup.connect("https://skillbox-java.github.io/").maxBodySize(0).get();
 
-        Map<String, List<Station>> stations = new HashMap<>();
         List<Line> lines = new ArrayList<>();
 
         Elements namesOfLine = doc.getElementsByClass("js-metro-line");
         for (Element e : namesOfLine) {
             lines.add(new Line(e.attr("data-line"), e.text()));
         }
-
+        Map<String, ArrayList<String>> parsedStations = new HashMap<>();
         Elements stationsElements = doc.getElementsByClass("js-metro-stations");
         for (Element el : stationsElements) {
-            for (Element element : el.select(".name")) {
-                List<Station> stationList = new ArrayList<>();
-                stationList.add(new Station(el.getAllElements().text().replaceAll("[\\d.]", "")));
-                stations.put(el.attr("data-line"), stationList);
+                Station station = new Station(el.attr("data-line"));
+                for (String branch : el.text().replaceAll("\\b1\\. ", "").split(" [\\d]{0,2}\\. ")) {
+                        station.setBranch(branch);
+                }
+                parsedStations.put(station.getName(), station.getBranches());
 
-
-
-            }
         }
 
-        metro.setStations(stations);
+        metro.setStations(parsedStations);
         metro.setLines(lines);
 
         ObjectMapper mapper = new ObjectMapper();

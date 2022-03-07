@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Metro {
     List<Line> lines = new ArrayList<>();
-    Map<String, List<Station>> stations = new HashMap<>();
+    Map<String, ArrayList<String>> stations = new HashMap<>();
 
     public List<Line> getLines() {
         return lines;
@@ -15,11 +15,11 @@ public class Metro {
         this.lines = lines;
     }
 
-    public Map<String, List<Station>> getStations() {
+    public Map<String, ArrayList<String>> getStations() {
         return stations;
     }
 
-    public void setStations(Map<String, List<Station>> stations) {
+    public void setStations(Map<String, ArrayList<String>> stations) {
         this.stations = stations;
     }
 }
