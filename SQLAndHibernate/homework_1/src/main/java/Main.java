@@ -31,6 +31,7 @@ public class Main {
             }
             connection.close();
             statement.close();
+            resultSet.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
