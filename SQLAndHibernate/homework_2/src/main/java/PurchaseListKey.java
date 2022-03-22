@@ -1,7 +1,6 @@
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -10,7 +9,6 @@ import java.util.Date;
 
 
 @EqualsAndHashCode
-@ToString
 @Embeddable
 public class PurchaseListKey implements Serializable {
 

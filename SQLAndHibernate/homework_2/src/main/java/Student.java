@@ -35,5 +35,14 @@ public class Student {
     @Setter
     private List<Course> courses;
 
-
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", registrationDate=" + registrationDate +
+                ", courses=" + courses +
+                '}';
+    }
 }

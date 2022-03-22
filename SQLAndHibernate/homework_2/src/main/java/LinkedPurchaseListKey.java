@@ -6,27 +6,22 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+
 @EqualsAndHashCode
 @Embeddable
-public class SubscriptionKey implements Serializable {
-
-
+public class LinkedPurchaseListKey implements Serializable {
 
     @Column(name = "student_id")
     @Getter
     @Setter
-    private int studentId;
+    private String studentId;
 
     @Column(name = "course_id")
     @Getter
     @Setter
-    private int courseId;
+    private String courseId;
 
-    public SubscriptionKey() {
 
-    }
 
-    public SubscriptionKey(int studentId, int courseId) {
 
-    }
 }
