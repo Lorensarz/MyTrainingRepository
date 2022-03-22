@@ -1,6 +1,5 @@
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -17,14 +16,14 @@ public class Main {
 
         Session session = sessionFactory.openSession();
 
-        String createLinkedPurchaseList = "CREATE TABLE LinkedPurchaseList AS linked_purchaselist " +
+
+        String createLinkedPurchaseList =
+                "CREATE TABLE LinkedPurchaseList " +
                 "AS " +
-                "SELECT " +
-                "studentId AS student_id, " +
-                "courseId AS course_id " +
+                "SELECT Student.id, Course.id " +
                 "FROM PurchaseList " +
-                "JOIN Student" + " ON Student.name = Purchaselist.studentName " +
-                "JOIN Course" + " ON Course.name = Purchaselist.courseName";
+                "JOIN Student ON Student.name = PurchaseList.studentName " +
+                "JOIN Course ON Course.name = PurchaseList.courseName";
 
 
         session.createQuery(createLinkedPurchaseList);

@@ -14,12 +14,12 @@ public class LinkedPurchaseListKey implements Serializable {
     @Column(name = "student_id")
     @Getter
     @Setter
-    private String studentId;
+    private int studentId;
 
     @Column(name = "course_id")
     @Getter
     @Setter
-    private String courseId;
+    private int courseId;
 
 
 
