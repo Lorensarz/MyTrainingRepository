@@ -10,8 +10,6 @@ import java.io.Serializable;
 @Embeddable
 public class SubscriptionKey implements Serializable {
 
-
-
     @Column(name = "student_id")
     @Getter
     @Setter
@@ -22,11 +20,4 @@ public class SubscriptionKey implements Serializable {
     @Setter
     private int courseId;
 
-    public SubscriptionKey() {
-
-    }
-
-    public SubscriptionKey(int studentId, int courseId) {
-
-    }
 }

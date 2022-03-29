@@ -14,17 +14,17 @@ public class Subscription {
     private SubscriptionKey id;
 
 
-
-
     @Column(name = "student_id", insertable = false, updatable = false)
     @Getter
     @Setter
     private int studentId;
 
+
     @Column(name = "course_id", insertable = false, updatable = false)
     @Getter
     @Setter
     private int courseId;
+
 
     @Column(name = "subscription_date")
     @Getter

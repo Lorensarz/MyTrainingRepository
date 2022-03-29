@@ -1,5 +1,7 @@
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -14,19 +16,38 @@ public class Main {
         Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
 
-        Session session = sessionFactory.openSession();
+
+        try (sessionFactory) {
+            Session session = sessionFactory.openSession();
+
+            Transaction transaction = session.beginTransaction();
+
+            String createLinkedPurchaseList = "insert into linked_purchaselist\n" +
+                    "select Students.id, Courses.id\n" +
+                    "from purchaselist\n" +
+                    "join Students on Students.name = PurchaseList.student_Name\n" +
+                    "join Courses on Courses.name = PurchaseList.course_Name";
 
 
-        String createLinkedPurchaseList =
-                "CREATE TABLE LinkedPurchaseList " +
-                "AS " +
-                "SELECT Student.id, Course.id " +
-                "FROM PurchaseList " +
-                "JOIN Student ON Student.name = PurchaseList.studentName " +
-                "JOIN Course ON Course.name = PurchaseList.courseName";
+            session.createSQLQuery(createLinkedPurchaseList).executeUpdate();
+
+            transaction.commit();
 
 
-        session.createQuery(createLinkedPurchaseList);
+        } catch (HibernateException e) {
+            e.printStackTrace();
+
+        }
+
+
+//        String createLinkedPurchaseList =
+//                "CREATE TABLE " + LinkedPurchaseList.class.getSimpleName() +
+//                " AS " +
+//                "SELECT Student.id, Course.id " +
+//                "FROM " + PurchaseList.class.getSimpleName() +
+//                " JOIN " + Student.class.getSimpleName() + " on Student.name = PurchaseList.studentName " +
+//                "JOIN " + Course.class.getSimpleName() + " on Course.name = PurchaseList.courseName";
+
 
 //        Course course = session.get(Course.class, 1);
 //        List<Student> studentsList = course.getStudents();
@@ -41,9 +62,6 @@ public class Main {
 
 //        Subscription subscription = session.get(Subscription.class,
 //                new SubscriptionKey(1, 2));
-
-
-        sessionFactory.close();
 
 
     }

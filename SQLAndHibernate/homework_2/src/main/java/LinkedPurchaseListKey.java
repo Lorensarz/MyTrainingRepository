@@ -21,7 +21,4 @@ public class LinkedPurchaseListKey implements Serializable {
     @Setter
     private int courseId;
 
-
-
-
 }
