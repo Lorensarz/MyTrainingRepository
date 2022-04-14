@@ -1,4 +1,3 @@
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -10,8 +9,6 @@ public class Main {
 
     private static int totalContainers = 1;
     private static int totalTrucks = 1;
-
-
 
 
     private static int calculateContainersCount(int boxes) {
@@ -68,8 +65,6 @@ public class Main {
         }
 
     }
-
-
 
 
     public static void main(String[] args) {
