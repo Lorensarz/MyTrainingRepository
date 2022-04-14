@@ -1,12 +1,18 @@
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
+    private static int newWidth = 300;
+
+    private static int processorsCount = Runtime.getRuntime().availableProcessors();
+
     public static void main(String[] args) {
-        String srcFolder = "/users/sortedmap/Desktop/src";
-        String dstFolder = "/users/sortedmap/Desktop/dst";
+        String srcFolder = "C:\\Downloads\\Camera";
+        String dstFolder = "C:\\Downloads\\newCamera";
 
         File srcDir = new File(srcFolder);
 
@@ -14,38 +20,52 @@ public class Main {
 
         File[] files = srcDir.listFiles();
 
-        try {
-            for (File file : files) {
-                BufferedImage image = ImageIO.read(file);
-                if (image == null) {
-                    continue;
-                }
+        List<File[]> dividingFiles = runDividingFiles(files, processorsCount);
 
-                int newWidth = 300;
-                int newHeight = (int) Math.round(
-                    image.getHeight() / (image.getWidth() / (double) newWidth)
-                );
-                BufferedImage newImage = new BufferedImage(
-                    newWidth, newHeight, BufferedImage.TYPE_INT_RGB
-                );
+        ImageResizer resizer1 = new ImageResizer(dividingFiles.get(0), newWidth, Path.of(dstFolder), start);
+        ImageResizer resizer2 = new ImageResizer(dividingFiles.get(1), newWidth, Path.of(dstFolder), start);
+        ImageResizer resizer3 = new ImageResizer(dividingFiles.get(2), newWidth, Path.of(dstFolder), start);
+        ImageResizer resizer4 = new ImageResizer(dividingFiles.get(3), newWidth, Path.of(dstFolder), start);
 
-                int widthStep = image.getWidth() / newWidth;
-                int heightStep = image.getHeight() / newHeight;
+        resizer1.start();
+        resizer2.start();
+        resizer3.start();
+        resizer4.start();
 
-                for (int x = 0; x < newWidth; x++) {
-                    for (int y = 0; y < newHeight; y++) {
-                        int rgb = image.getRGB(x * widthStep, y * heightStep);
-                        newImage.setRGB(x, y, rgb);
-                    }
-                }
+    }
 
-                File newFile = new File(dstFolder + "/" + file.getName());
-                ImageIO.write(newImage, "jpg", newFile);
+    private static List<File[]> runDividingFiles(File[] files, int numberOfParts) {
+
+        List<File[]> resultArr = new ArrayList<>();
+
+        int partitionSize = files.length / numberOfParts;
+        int remainder = files.length % numberOfParts;
+        int halfOneSegment = partitionSize / 2;
+
+        boolean remainderOfTheDivision = false;
+        if (remainder > 0 && remainder <= halfOneSegment) remainderOfTheDivision = true;
+        int bound = files.length - (remainderOfTheDivision ? partitionSize : 0);
+
+        for (int i = 0; i < bound; i += partitionSize) {
+            int min = Math.min(files.length, i + partitionSize);
+            boolean isLastParts = false;
+            if ((i + partitionSize) >= bound) {
+                isLastParts = true;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+
+            int endIndexRange;
+            if (remainderOfTheDivision && isLastParts) {
+                endIndexRange = files.length;
+            } else {
+                endIndexRange = min;
+            }
+
+            File[] filesResult = Arrays.copyOfRange(files, i, endIndexRange);
+
+            resultArr.add(filesResult);
         }
 
-        System.out.println("Duration: " + (System.currentTimeMillis() - start));
+        return resultArr;
     }
 }
+
