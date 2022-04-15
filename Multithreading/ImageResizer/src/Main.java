@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Main {
 
-    private static int newWidth = 300;
+    private static final int newWidth = 300;
 
-    private static int processorsCount = Runtime.getRuntime().availableProcessors();
+    private static final int processorsCount = Runtime.getRuntime().availableProcessors();
 
     public static void main(String[] args) {
         String srcFolder = "C:\\Downloads\\Camera";
@@ -20,38 +20,30 @@ public class Main {
 
         File[] files = srcDir.listFiles();
 
-        List<File[]> dividingFiles = runDividingFiles(files, processorsCount);
+        assert files != null;
+        List<File[]> dividingFiles = runDividingFiles(files);
 
-        ImageResizer resizer1 = new ImageResizer(dividingFiles.get(0), newWidth, Path.of(dstFolder), start);
-        ImageResizer resizer2 = new ImageResizer(dividingFiles.get(1), newWidth, Path.of(dstFolder), start);
-        ImageResizer resizer3 = new ImageResizer(dividingFiles.get(2), newWidth, Path.of(dstFolder), start);
-        ImageResizer resizer4 = new ImageResizer(dividingFiles.get(3), newWidth, Path.of(dstFolder), start);
-
-        resizer1.start();
-        resizer2.start();
-        resizer3.start();
-        resizer4.start();
+        for (File[] dividingFile : dividingFiles) {
+            ImageResizer resizer = new ImageResizer(dividingFile, newWidth, Path.of(dstFolder), start);
+            resizer.start();
+        }
 
     }
 
-    private static List<File[]> runDividingFiles(File[] files, int numberOfParts) {
+    private static List<File[]> runDividingFiles(File[] files) {
 
         List<File[]> resultArr = new ArrayList<>();
 
-        int partitionSize = files.length / numberOfParts;
-        int remainder = files.length % numberOfParts;
+        int partitionSize = files.length / Main.processorsCount;
+        int remainder = files.length % Main.processorsCount;
         int halfOneSegment = partitionSize / 2;
 
-        boolean remainderOfTheDivision = false;
-        if (remainder > 0 && remainder <= halfOneSegment) remainderOfTheDivision = true;
+        boolean remainderOfTheDivision = remainder > 0 && remainder <= halfOneSegment;
         int bound = files.length - (remainderOfTheDivision ? partitionSize : 0);
 
         for (int i = 0; i < bound; i += partitionSize) {
             int min = Math.min(files.length, i + partitionSize);
-            boolean isLastParts = false;
-            if ((i + partitionSize) >= bound) {
-                isLastParts = true;
-            }
+            boolean isLastParts = (i + partitionSize) >= bound;
 
             int endIndexRange;
             if (remainderOfTheDivision && isLastParts) {
