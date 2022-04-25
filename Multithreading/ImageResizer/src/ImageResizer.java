@@ -3,12 +3,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Path;
 
-public class ImageResizer extends Thread {
+public class ImageResizer implements Runnable{
 
-    private File[] files;
-    private int newWidth;
-    private Path dstFolder;
-    private long start;
+    private final File[] files;
+    private final int newWidth;
+    private final Path dstFolder;
+    private final long start;
 
 
     public ImageResizer(File[] files, int newWidth, Path dstFolder, long start) {

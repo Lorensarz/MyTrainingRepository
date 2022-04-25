@@ -1,15 +1,25 @@
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class Bank {
 
-    private Map<String, Account> accounts;
+    private final ConcurrentMap<String, Account> accounts = new ConcurrentHashMap<>();
     private final Random random = new Random();
 
     public synchronized boolean isFraud(String fromAccountNum, String toAccountNum, long amount)
-        throws InterruptedException {
+            throws InterruptedException {
         Thread.sleep(1000);
         return random.nextBoolean();
+    }
+
+    public void addAccountToBank(Account account) {
+        accounts.put(account.getAccNumber(), account);
+    }
+
+    public boolean isEnoughMoney(long fromAccountMoney, long amount) {
+        return fromAccountMoney >= amount;
     }
 
     /**
@@ -18,18 +28,49 @@ public class Bank {
      * метод isFraud. Если возвращается true, то делается блокировка счетов (как – на ваше
      * усмотрение)
      */
-    public void transfer(String fromAccountNum, String toAccountNum, long amount) {
+    public synchronized void transfer(String fromAccountNum, String toAccountNum, long amount) {
+        Account fromAccount = accounts.get(fromAccountNum);
+        Account toAccount = accounts.get(toAccountNum);
+        boolean check = false;
+
+        if (amount > 0 && isEnoughMoney(fromAccount.getMoney(), amount)) {
+            fromAccount.setMoney(fromAccount.getMoney() - amount);
+            toAccount.setMoney(toAccount.getMoney() + amount);
+        }
+
+        long verificationLimit = 50_000;
+        if (amount > verificationLimit) {
+            try {
+                check = isFraud(fromAccountNum, toAccountNum, amount);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+
+            if (check) {
+                fromAccount.blockedAccount();
+                toAccount.blockedAccount();
+            } else {
+                fromAccount.setMoney(fromAccount.getMoney() - amount);
+                toAccount.setMoney(toAccount.getMoney() + amount);
+            }
+        }
 
     }
 
     /**
      * TODO: реализовать метод. Возвращает остаток на счёте.
      */
-    public long getBalance(String accountNum) {
-        return 0;
+    public synchronized long getBalance(String accountNum) {
+        return accounts.get(accountNum).getMoney();
     }
 
-    public long getSumAllAccounts() {
-        return 0;
+    public synchronized long getSumAllAccounts() {
+        long sumAllMoney = 0;
+        for (Map.Entry<String, Account> entry : accounts.entrySet()) {
+            sumAllMoney += entry.getValue().getMoney();
+        }
+        return sumAllMoney;
     }
+
+
 }

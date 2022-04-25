@@ -3,6 +3,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
 
@@ -10,9 +12,12 @@ public class Main {
 
     private static final int processorsCount = Runtime.getRuntime().availableProcessors();
 
+
     public static void main(String[] args) {
         String srcFolder = "C:\\Downloads\\Camera";
         String dstFolder = "C:\\Downloads\\newCamera";
+
+        ExecutorService executorService;
 
         File srcDir = new File(srcFolder);
 
@@ -23,12 +28,23 @@ public class Main {
         assert files != null;
         List<File[]> dividingFiles = runDividingFiles(files);
 
-        for (File[] dividingFile : dividingFiles) {
-            ImageResizer resizer = new ImageResizer(dividingFile, newWidth, Path.of(dstFolder), start);
-            resizer.start();
-        }
 
+
+//        ImageResizer resizer = new ImageResizer(files, newWidth, Path.of(dstFolder), start);
+//        executorService = Executors.newFixedThreadPool(processorsCount);
+//        executorService.execute(resizer);
+//        executorService.shutdown();
+
+        executorService = Executors.newFixedThreadPool(processorsCount);
+
+        for (File[] file : dividingFiles) {
+            ImageResizer resizer = new ImageResizer(file, newWidth, Path.of(dstFolder), start);
+            executorService.submit(resizer);
+
+        }
+        executorService.shutdown();
     }
+
 
     private static List<File[]> runDividingFiles(File[] files) {
 
