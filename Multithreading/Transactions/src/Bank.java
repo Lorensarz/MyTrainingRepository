@@ -31,7 +31,7 @@ public class Bank {
     public synchronized void transfer(String fromAccountNum, String toAccountNum, long amount) {
         Account fromAccount = accounts.get(fromAccountNum);
         Account toAccount = accounts.get(toAccountNum);
-        boolean check = false;
+        boolean checkFraud = false;
 
         if (amount > 0 && isEnoughMoney(fromAccount.getMoney(), amount)) {
             fromAccount.setMoney(fromAccount.getMoney() - amount);
@@ -41,12 +41,12 @@ public class Bank {
         long verificationLimit = 50_000;
         if (amount > verificationLimit) {
             try {
-                check = isFraud(fromAccountNum, toAccountNum, amount);
+                checkFraud = isFraud(fromAccountNum, toAccountNum, amount);
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
 
-            if (check) {
+            if (checkFraud) {
                 fromAccount.blockedAccount();
                 toAccount.blockedAccount();
             } else {
