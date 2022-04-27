@@ -28,32 +28,38 @@ public class Bank {
      * метод isFraud. Если возвращается true, то делается блокировка счетов (как – на ваше
      * усмотрение)
      */
-    public synchronized void transfer(String fromAccountNum, String toAccountNum, long amount) {
+
+    public void transfer(String fromAccountNum, String toAccountNum, long amount) {
         Account fromAccount = accounts.get(fromAccountNum);
         Account toAccount = accounts.get(toAccountNum);
         boolean checkFraud = false;
 
-        if (amount > 0 && isEnoughMoney(fromAccount.getMoney(), amount)) {
-            fromAccount.setMoney(fromAccount.getMoney() - amount);
-            toAccount.setMoney(toAccount.getMoney() + amount);
+        synchronized (fromAccount) {
+            synchronized (toAccount) {
+                if (amount > 0 && isEnoughMoney(fromAccount.getMoney(), amount)) {
+                    fromAccount.setMoney(fromAccount.getMoney() - amount);
+                    toAccount.setMoney(toAccount.getMoney() + amount);
+                }
+
+                long verificationLimit = 50_000;
+                if (amount > verificationLimit) {
+                    try {
+                        checkFraud = isFraud(fromAccountNum, toAccountNum, amount);
+                    } catch (InterruptedException exception) {
+                        exception.printStackTrace();
+                    }
+
+                    if (checkFraud) {
+                        fromAccount.blockedAccount();
+                        toAccount.blockedAccount();
+                    } else {
+                        fromAccount.setMoney(fromAccount.getMoney() - amount);
+                        toAccount.setMoney(toAccount.getMoney() + amount);
+                    }
+                }
+            }
         }
 
-        long verificationLimit = 50_000;
-        if (amount > verificationLimit) {
-            try {
-                checkFraud = isFraud(fromAccountNum, toAccountNum, amount);
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
-
-            if (checkFraud) {
-                fromAccount.blockedAccount();
-                toAccount.blockedAccount();
-            } else {
-                fromAccount.setMoney(fromAccount.getMoney() - amount);
-                toAccount.setMoney(toAccount.getMoney() + amount);
-            }
-        }
 
     }
 
