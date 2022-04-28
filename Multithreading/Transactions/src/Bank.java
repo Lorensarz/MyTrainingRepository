@@ -34,29 +34,27 @@ public class Bank {
         Account toAccount = accounts.get(toAccountNum);
         boolean checkFraud = false;
 
-        if (fromAccount.hashCode() > toAccount.hashCode()) {
-            synchronized (fromAccount) {
-                synchronized (toAccount) {
-                    if (amount > 0 && isEnoughMoney(fromAccount.getMoney(), amount)) {
-                        fromAccount.setMoney(fromAccount.getMoney() - amount);
-                        toAccount.setMoney(toAccount.getMoney() + amount);
+        synchronized (fromAccount) {
+            synchronized (toAccount) {
+                if (amount > 0 && isEnoughMoney(fromAccount.getMoney(), amount)) {
+                    fromAccount.setMoney(fromAccount.getMoney() - amount);
+                    toAccount.setMoney(toAccount.getMoney() + amount);
+                }
+
+                long verificationLimit = 50_000;
+                if (amount > verificationLimit) {
+                    try {
+                        checkFraud = isFraud(fromAccountNum, toAccountNum, amount);
+                    } catch (InterruptedException exception) {
+                        exception.printStackTrace();
                     }
 
-                    long verificationLimit = 50_000;
-                    if (amount > verificationLimit) {
-                        try {
-                            checkFraud = isFraud(fromAccountNum, toAccountNum, amount);
-                        } catch (InterruptedException exception) {
-                            exception.printStackTrace();
-                        }
-
-                        if (checkFraud) {
-                            fromAccount.blockedAccount();
-                            toAccount.blockedAccount();
-                        } else {
-                            fromAccount.setMoney(fromAccount.getMoney() - amount);
-                            toAccount.setMoney(toAccount.getMoney() + amount);
-                        }
+                    if (checkFraud) {
+                        fromAccount.blockedAccount();
+                        toAccount.blockedAccount();
+                    } else {
+                        fromAccount.setMoney(fromAccount.getMoney() - amount);
+                        toAccount.setMoney(toAccount.getMoney() + amount);
                     }
                 }
             }
