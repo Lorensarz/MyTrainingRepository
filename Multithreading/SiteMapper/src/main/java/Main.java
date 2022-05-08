@@ -23,6 +23,7 @@ public class Main {
         }
         assert doc != null;
         Elements elements = doc.select("a[href]");
+
         for (Element link : elements) {
             String absLink = link.attr("abs:href");
             if (absLink.contains("skillbox.ru")) {
