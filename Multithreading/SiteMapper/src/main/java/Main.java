@@ -3,6 +3,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -26,7 +27,7 @@ public class Main {
 
         for (Element link : elements) {
             String absLink = link.attr("abs:href");
-            if (absLink.contains("skillbox.ru")) {
+            if (absLink.startsWith(URL) && !absLink.endsWith("#")) {
                 mainPageLinksSet.add(absLink);
             }
 
@@ -37,7 +38,8 @@ public class Main {
 
                     for (Element followingElements : followingElement) {
                         String followingAbsLink = followingElements.attr("abs:href");
-                        if (followingAbsLink.contains("skillbox.ru")
+                        if (followingAbsLink.startsWith(URL)
+                                && !followingAbsLink.endsWith("#")
                                 && !mainPageLinksSet.contains(followingAbsLink)) {
                             followingPages.add(followingAbsLink);
                         }
@@ -47,7 +49,25 @@ public class Main {
                 e.printStackTrace();
             }
 
-            followingPages.forEach(System.out::println);
+            try (FileWriter writer = new FileWriter("links.txt")) {
+                mainPageLinksSet.forEach(s -> {
+                    try {
+                        writer.write(s + "\n\t");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                followingPages.forEach(str -> {
+                    try {
+                        writer.write(str + "\n\t");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
             System.out.println(followingPages.size());
 
         }
