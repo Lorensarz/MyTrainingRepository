@@ -1,71 +1,51 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.RecursiveTask;
 
-import static java.lang.Thread.sleep;
-
-public class SiteMapNode extends RecursiveTask<Set<String>> {
+public class SiteMapNode {
 
     private final String url;
-
+    private volatile SiteMapNode parent;
+    private volatile int depth;
+    private final CopyOnWriteArraySet<SiteMapNode> subLinks;
 
     public SiteMapNode(String url) {
         this.url = url;
+        subLinks = new CopyOnWriteArraySet<>();
+        depth = 0;
+        parent = null;
+
     }
 
-    @Override
-    protected Set<String> compute() {
-
-        Set<String> allLinks = parseUrl(url);
-        List<SiteMapNode> tasks = new ArrayList<>();
-        for (String links : allLinks) {
-            parseUrl(links);
-            SiteMapNode task = new SiteMapNode(url);
-            task.fork();
-            tasks.add(task);
-        }
-        addResultsFromTasks(allLinks, tasks);
-        return allLinks;
-    }
-
-    private void addResultsFromTasks(Set<String> links, List<SiteMapNode> tasks)
-    {
-        for (SiteMapNode item : tasks)
-        {
-            links.addAll(item.join());
+    public void addSubLinks(SiteMapNode subLink) {
+        if (!subLinks.contains(subLink) && subLink.getUrl().startsWith(url)) {
+            this.subLinks.add(subLink);
+            subLink.setParent(this);
         }
     }
 
-    private Set<String> parseUrl(String url) {
-        Set<String> links = new CopyOnWriteArraySet<>();
-
-        try {
-            Document doc = Jsoup.connect(url).timeout(100000).get();
-            Elements elements = doc.select("a[href]");
-
-            for (Element link : elements) {
-                String absLink = link.attr("abs:href");
-                if (isCorrected(absLink)) {
-                    links.add(absLink);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void setParent(SiteMapNode siteMapNode) {
+        synchronized (this) {
+            this.parent = siteMapNode;
+            this.depth = setDepth();
         }
-
-        return links;
     }
 
-    private boolean isCorrected(String absLink) {
-        return (!absLink.isEmpty() && absLink.startsWith(url) && !absLink.contains("#")
-                && !absLink.matches("([^\\s]+(\\.(?i)(jpg|png|gif|bmp|pdf))$)"));
+    public String getUrl() {
+        return url;
     }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public int setDepth() {
+        if (parent == null) {
+            return 0;
+        }
+        return 1 + parent.getDepth();
+    }
+
+    public CopyOnWriteArraySet<SiteMapNode> getSubLinks() {
+        return subLinks;
+    }
+
 }

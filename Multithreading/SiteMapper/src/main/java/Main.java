@@ -1,74 +1,34 @@
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
-
+import java.io.OutputStream;
+import java.util.Collections;
+import java.util.concurrent.ForkJoinPool;
 
 public class Main {
 
-    private static final String URL = "https://skillbox.ru/";
+    private static final String SITE_URL = "https://skillbox.ru/";
+    private static final String SITEMAP_DOC =
+            "C:\\Skillbox\\java_basics\\Multithreading\\SiteMapper\\src\\main\\resources\\sitemap.txt";
 
     public static void main(String[] args) {
-        Set<String> mainPageLinksSet = new TreeSet<>();
-        Set<String> followingPages = new TreeSet<>();
+        SiteMapNode rootUrl = new SiteMapNode(SITE_URL);
+        new ForkJoinPool().invoke(new SiteMapNodeRecursiveTask(rootUrl, rootUrl));
+        writeSitemapUrl(rootUrl, SITEMAP_DOC);
+    }
 
-        Document doc = null;
-        try {
-            doc = Jsoup.connect(URL).maxBodySize(0).get();
+    public static void writeSitemapUrl(SiteMapNode node, String sitemapDoc) {
+        int depth = node.getDepth();
+        String tabs = String.join("", Collections.nCopies(depth, "\t"));
+        appendStringInFile(sitemapDoc, tabs + node.getUrl() + "\n");
+        node.getSubLinks().forEach(link -> writeSitemapUrl(link, sitemapDoc));
+    }
+
+    private static void appendStringInFile(String fileName, String data) {
+        try (OutputStream outputStream = new FileOutputStream(fileName, true)) {
+            outputStream.write(data.getBytes(), 0, data.length());
+
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        assert doc != null;
-        Elements elements = doc.select("a[href]");
-
-        for (Element link : elements) {
-            String absLink = link.attr("abs:href");
-            if (absLink.startsWith(URL) && !absLink.endsWith("#")) {
-                mainPageLinksSet.add(absLink);
-            }
-
-            try {
-                for (String followingLinks : mainPageLinksSet) {
-                    Document followingDoc = Jsoup.connect(followingLinks).maxBodySize(0).get();
-                    Elements followingElement = followingDoc.select("a[href]");
-
-                    for (Element followingElements : followingElement) {
-                        String followingAbsLink = followingElements.attr("abs:href");
-                        if (followingAbsLink.startsWith(URL)
-                                && !followingAbsLink.endsWith("#")
-                                && !mainPageLinksSet.contains(followingAbsLink)) {
-                            followingPages.add(followingAbsLink);
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try (FileWriter writer = new FileWriter("links.txt")) {
-                mainPageLinksSet.forEach(s -> {
-                    try {
-                        writer.write(s + "\n\t");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                followingPages.forEach(str -> {
-                    try {
-                        writer.write(str + "\n\t");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-
-            System.out.println(followingPages.size());
 
         }
     }
