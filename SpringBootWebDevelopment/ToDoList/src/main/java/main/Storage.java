@@ -1,15 +1,16 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Storage {
-    private static int currentId = 1;
-    private static final HashMap<Integer, Todo> todos = new HashMap<>();
+    private static final AtomicInteger currentId = new AtomicInteger(1);
+    private static final ConcurrentHashMap<Integer, Todo> todos = new ConcurrentHashMap<Integer, Todo>();
 
     public static int addTodo(Todo todo) {
-        int id = currentId++;
+        int id = currentId.getAndIncrement();
         todo.setId(id);
         todos.put(id, todo);
         return id;
@@ -29,12 +30,11 @@ public class Storage {
         return null;
     }
 
-    public static Todo refreshTodo(int todoId, String name, String descrition, Boolean done) {
-
+    public static Todo refreshTodo(int todoId, String name, String description, Boolean done) {
         if (todos.containsKey(todoId)) {
             Todo updatedTodo = todos.get(todoId);
             updatedTodo.setName(name);
-            updatedTodo.setDescription(descrition);
+            updatedTodo.setDescription(description);
             updatedTodo.setDone(done);
             return updatedTodo;
         }
