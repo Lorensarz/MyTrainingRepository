@@ -1,14 +1,19 @@
 package main;
 
+import main.model.TodoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import main.model.Todo;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class TodoController {
+
+    @Autowired
+    private TodoRepository todoRepository;
 
     @GetMapping("/todos/")
     public List<Todo> list() {
@@ -17,7 +22,8 @@ public class TodoController {
 
     @PostMapping("/todos/")
     public int add(Todo todo) {
-        return Storage.addTodo(todo);
+        Todo newTodo = todoRepository.save(todo);
+        return newTodo.getId();
     }
 
     @GetMapping("/todos/{id}")
