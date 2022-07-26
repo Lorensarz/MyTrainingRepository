@@ -14,6 +14,7 @@ public class DefaultController {
 
     @Autowired
     TodoRepository todoRepository;
+
     @RequestMapping("/")
     public String index(Model model) {
        Iterable<Todo> todoIterable = todoRepository.findAll();
